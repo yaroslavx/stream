@@ -1,5 +1,5 @@
 import { PrismaService } from '@/src/core/prisma/prisma.service';
-import { Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException, Logger } from '@nestjs/common';
 import { LoginInput } from './inputs/login.input';
 import { verify } from 'argon2';
 import type { Request } from 'express';
@@ -8,10 +8,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class SessionService {
     public constructor(private readonly prismaService: PrismaService, private readonly configService: ConfigService) { }
-
-    public async findAll(req: Request) {
-        return this.prismaService.user.findMany()
-    }
 
     public async login(req: Request, input: LoginInput) {
         const { login, password } = input;
@@ -52,7 +48,7 @@ export class SessionService {
                     return reject(new InternalServerErrorException('Не удалось сохранить сессию'))
                 }
 
-                resolve({ user })
+                resolve(user)
             })
         })
     }

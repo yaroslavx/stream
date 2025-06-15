@@ -5,12 +5,20 @@ import { hash } from 'argon2';
 
 @Injectable()
 export class AccountService {
-    public constructor(private readonly prismaService: PrismaService) {
-        
+    public constructor(private readonly prismaService: PrismaService) { }
+
+    public async me(id: string) {
+        const user = await this.prismaService.user.findUnique({
+            where: {
+                id
+            }
+        })
+
+        return user
     }
 
     public async create(input: CreateUserInput) {
-        const {email, password, username} = input
+        const { email, password, username } = input
 
         const isUsernameExists = await this.prismaService.user.findUnique({
             where: {
@@ -31,7 +39,7 @@ export class AccountService {
         if (isEmailExists) {
             throw new Error('Эта почта уже занята')
         }
-        
+
         await this.prismaService.user.create({
             data: {
                 username,
@@ -44,4 +52,3 @@ export class AccountService {
         return true
     }
 }
- 
