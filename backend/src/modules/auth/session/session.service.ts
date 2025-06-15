@@ -9,6 +9,10 @@ import { ConfigService } from '@nestjs/config';
 export class SessionService {
     public constructor(private readonly prismaService: PrismaService, private readonly configService: ConfigService) { }
 
+    public async findAll(req: Request) {
+        return this.prismaService.user.findMany()
+    }
+
     public async login(req: Request, input: LoginInput) {
         const { login, password } = input;
 
