@@ -11,9 +11,15 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["*"],
-      "@prisma/generated": ["generated/prisma"],
-      "@prisma/generated/*": ["generated/prisma/*"]
+      "@/*": [
+        "*"
+      ],
+      "@prisma/generated": [
+        "prisma/generated"
+      ],
+      "@prisma/generated/*": [
+        "prisma/generated/*"
+      ]
     },
     "incremental": true,
     "forceConsistentCasingInFileNames": true,

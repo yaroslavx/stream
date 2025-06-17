@@ -1,4 +1,4 @@
-import type { User } from "@/generated/prisma";
+import type { User } from "@/prisma/generated";
 import { Field, ID, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()

@@ -1,4 +1,4 @@
-import { User } from "@/generated/prisma";
+import { User } from "@/prisma/generated";
 import { createParamDecorator, type ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
 

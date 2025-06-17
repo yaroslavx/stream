@@ -19,4 +19,4 @@ build
 # Logs
 logs
 *.log
-/generated/prisma
+/prisma/generated

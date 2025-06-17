@@ -8,6 +8,7 @@ import { ApolloDriver } from "@nestjs/apollo";
 import { RedisModule } from "./redis/redis.module";
 import { AccountModule } from "../modules/auth/account/account.module";
 import { SessionModule } from "../modules/auth/session/session.module";
+import { VerificationModule } from "../modules/auth/verification/verification.module";
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { SessionModule } from "../modules/auth/session/session.module";
     PrismaModule,
     RedisModule,
     AccountModule,
-    SessionModule
+    SessionModule,
+    VerificationModule
   ],
 })
-export class CoreModule {}
+export class CoreModule { }
