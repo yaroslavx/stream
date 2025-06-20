@@ -1,5 +1,5 @@
 import { PrismaService } from '@/src/core/prisma/prisma.service';
-import { Injectable, UnauthorizedException, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
 import { LoginInput } from './inputs/login.input';
 import { verify } from 'argon2';
 import type { Request } from 'express';
@@ -7,13 +7,15 @@ import { ConfigService } from '@nestjs/config';
 import { getSessionMetadata } from '@/src/shared/utils/session-metadata.util';
 import { RedisService } from '@/src/core/redis/redis.service';
 import { destroySession, saveSession } from '@/src/shared/utils/session.util';
+import { VerificationService } from '../verification/verification.service';
 
 @Injectable()
 export class SessionService {
     public constructor(
         private readonly prismaService: PrismaService,
         private readonly configService: ConfigService,
-        private readonly redisService: RedisService
+        private readonly redisService: RedisService,
+        private readonly verificationService: VerificationService
     ) { }
 
     public async findByUser(req: Request) {
@@ -82,6 +84,12 @@ export class SessionService {
 
         if (!isValidPassword) {
             throw new UnauthorizedException('Неверный логин или пароль')
+        }
+
+        if (!user.isEmailVerified) {
+            await this.verificationService.sendVerificationToken(user)
+
+            throw new BadRequestException('Аккаунт не подтвержден. Пожалуйста, проверьте вашу почту для подтверждения.')
         }
 
         const metadata = getSessionMetadata(req, userAgent);

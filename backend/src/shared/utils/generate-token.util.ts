@@ -1,4 +1,4 @@
-import { TokenType, User } from "@/prisma/generated";
+import { TokenType, type User } from "@/prisma/generated";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { v4 as uuidv4 } from 'uuid'
 

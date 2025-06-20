@@ -3,9 +3,10 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { MailService } from '../../libs/mail/mail.service';
 import { Request } from 'express';
 import { VerificationInput } from './inputs/verification.input';
-import { TokenType } from '@/prisma/generated';
+import { TokenType, User } from '@/prisma/generated';
 import { getSessionMetadata } from '@/src/shared/utils/session-metadata.util';
 import { saveSession } from '@/src/shared/utils/session.util';
+import { generateToken } from '@/src/shared/utils/generate-token.util';
 
 @Injectable()
 export class VerificationService {
@@ -53,5 +54,14 @@ export class VerificationService {
         const metadata = getSessionMetadata(req, userAgent)
 
         return saveSession(req, user, metadata)
+    }
+
+    public async sendVerificationToken(user: User) {
+        const verificationToken = await generateToken(this.prismaService, user, TokenType.EMAIL_VERIFY, true)
+
+
+        await this.mailService.sendVerificationToken(user.email, verificationToken.token)
+
+        return true
     }
 }
