@@ -3,6 +3,7 @@ import { PasswordRecoveryService } from './password-recovery.service';
 import { UserAgent } from '@/src/shared/decorators/user-agent.decorator';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 import { GqlContext } from '@/src/shared/types/gql-context.types';
+import { NewPasswordInput } from './inputs/new-password.input';
 
 @Resolver('PasswordRecovery')
 export class PasswordRecoveryResolver {
@@ -15,5 +16,12 @@ export class PasswordRecoveryResolver {
     @UserAgent() userAgent: string
   ) {
     return this.passwordRecoveryService.resetPassword(req, input, userAgent)
+  }
+
+  @Mutation(() => Boolean, { name: "newPassword" })
+  public async newPassword(
+    @Args('data') input: NewPasswordInput,
+  ) {
+    return this.passwordRecoveryService.newPassword(input)
   }
 }

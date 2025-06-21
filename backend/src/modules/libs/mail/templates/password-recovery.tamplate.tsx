@@ -11,6 +11,7 @@ interface IProps {
 
 export function PasswordRecoveryTemplate({ domain, token, metadata }: IProps) {
     const resetLink = `${domain}/account/recovery/${token}`
+
     return (
         <Html>
             <Head />
@@ -25,7 +26,7 @@ export function PasswordRecoveryTemplate({ domain, token, metadata }: IProps) {
                         <Text className='text-base text-black mt-2'>
                             Чтобы создать новый пароль, нажмите на ссылку ниже:
                         </Text>
-                        <Link href={verificationLink} className='inline-flex items-center justify-center rounded-full text-sm font-medium text-white bg-slate-700 px-5 py-2.5'>
+                        <Link href={resetLink} className='inline-flex items-center justify-center rounded-full text-sm font-medium text-white bg-slate-700 px-5 py-2.5'>
                             Сбросить пароль
                         </Link>
                     </Section>
