@@ -33,6 +33,6 @@ export function VerificationTemplate({ domain, token }: IProps) {
                     </Section>
                 </Body>
             </Tailwind>
-        </Html >
+        </Html>
     )
 }
