@@ -7,6 +7,8 @@ import { TokenType, type User } from '@/prisma/generated';
 import { destroySession } from '@/src/shared/utils/session.util';
 import { generateToken } from '@/src/shared/utils/generate-token.util';
 import { getSessionMetadata } from '@/src/shared/utils/session-metadata.util';
+import { DeactivateAccountInput } from './inputs/deactivate-account.input';
+import { verify } from 'argon2';
 
 @Injectable()
 export class DeactivateService {
@@ -15,6 +17,31 @@ export class DeactivateService {
         private readonly mailService: MailService,
         private readonly configService: ConfigService
     ) { }
+
+    public async deactivate(req: Request, input: DeactivateAccountInput, user: User, userAgent: string) {
+        const { email, password, pin } = input
+
+        if (user.email !== email) {
+            throw new BadRequestException('Неверный почтовый адрес')
+        }
+
+        const isValidPassword = await verify(user.password, password)
+
+        if (!isValidPassword) {
+            throw new BadRequestException('Неверный пароль')
+        }
+
+        if (!pin) {
+            await this.sendDeactivateToken(req, user, userAgent)
+
+            return { message: 'Требуется код подтверждения' }
+        }
+
+        await this.validateDeactivateToken(req, pin)
+
+        return { user }
+
+    }
 
     private async validateDeactivateToken(req: Request, token: string) {
         const existingToken = await this.prismaService.token.findUnique({
