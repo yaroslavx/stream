@@ -13,6 +13,7 @@ import { MailModule } from "../modules/libs/mail/mail.module";
 import { PasswordRecoveryModule } from "../modules/auth/password-recovery/password-recovery.module";
 import { TotpModule } from "../modules/auth/totp/totp.module";
 import { DeactivateModule } from "../modules/auth/deactivate/deactivate.module";
+import { CronModule } from "../modules/cron/cron.module";
 
 @Module({
   imports: [
@@ -29,12 +30,13 @@ import { DeactivateModule } from "../modules/auth/deactivate/deactivate.module";
     PrismaModule,
     RedisModule,
     MailModule,
+    CronModule,
     AccountModule,
     SessionModule,
     VerificationModule,
     PasswordRecoveryModule,
     TotpModule,
-    DeactivateModule
+    DeactivateModule,
   ],
 })
 export class CoreModule { }

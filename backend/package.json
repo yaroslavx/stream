@@ -32,6 +32,7 @@
     "@nestjs/graphql": "^13.1.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.0.0",
     "@prisma/client": "^6.9.0",
     "@react-email/components": "^0.1.0",
     "@react-email/html": "^0.0.11",
