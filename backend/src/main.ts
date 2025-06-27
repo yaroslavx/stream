@@ -8,6 +8,7 @@ import { ms, type StringValue } from "@/src/shared/utils/ms.util";
 import { parseBoolean } from "@/src/shared/utils/parse-boolean.util";
 import { RedisService } from "@/src/core/redis/redis.service";
 import RedisStore from 'connect-redis';
+import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
 
 async function bootstrap() {
   const app = await NestFactory.create(CoreModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
   const redis = app.get(RedisService);
 
   app.use(cookieParser(config.getOrThrow<string>("COOKIES_SECRET")));
+  app.use(config.getOrThrow<string>("GRAPHQL_PREFIX"), graphqlUploadExpress());
 
   app.useGlobalPipes(
     new ValidationPipe({
