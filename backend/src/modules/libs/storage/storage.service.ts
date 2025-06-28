@@ -13,7 +13,7 @@ export class StorageService {
             region: this.configService.getOrThrow<string>('S3_REGION'),
             credentials: {
                 accessKeyId: this.configService.getOrThrow<string>('S3_ACCESS_KEY_ID'),
-                secretAccessKey: this.configService.getOrThrow<string>('S3_SECRET_ACCESS_KEY'),
+                secretAccessKey: this.configService.getOrThrow<string>('S3_SECRET_ACCESS_KEY_ID'),
             },
         })
 

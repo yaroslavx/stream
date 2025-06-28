@@ -8,7 +8,7 @@ import { ms, type StringValue } from "@/src/shared/utils/ms.util";
 import { parseBoolean } from "@/src/shared/utils/parse-boolean.util";
 import { RedisService } from "@/src/core/redis/redis.service";
 import RedisStore from 'connect-redis';
-import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
+import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
 
 async function bootstrap() {
   const app = await NestFactory.create(CoreModule);

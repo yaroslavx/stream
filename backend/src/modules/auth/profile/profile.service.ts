@@ -2,7 +2,7 @@ import { PrismaService } from '@/src/core/prisma/prisma.service';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { StorageService } from '../../libs/storage/storage.service';
 import { User } from '@/prisma/generated';
-import * as Upload from 'graphql-upload/Upload.mjs';
+import Upload from 'graphql-upload/Upload.mjs';
 import * as sharp from 'sharp';
 import { ChangeProfileInfoInput } from './inputs/change-profile-info.input';
 
@@ -13,7 +13,7 @@ export class ProfileService {
         private readonly storageService: StorageService,
     ) { }
 
-    public async changeAvatar(user: User, file: Upload) {
+    public async changeAvatar(user: User, { file }: Upload) {
         if (user.avatar) {
             await this.storageService.remove(user.avatar);
         }
