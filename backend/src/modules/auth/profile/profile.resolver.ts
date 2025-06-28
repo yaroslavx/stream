@@ -15,4 +15,10 @@ export class ProfileResolver {
   public async changeAvatar(@Authorized() user: User, @Args('avatar', { type: () => GraphQLUpload }) avatar: Upload) {
     this.profileService.changeAvatar(user, avatar)
   }
+
+  @Authorization()
+  @Mutation(() => Boolean, { name: 'removeProfileAvatar' })
+  public async removeAvatar(@Authorized() user: User) {
+    this.profileService.removeAvatar(user)
+  }
 }
