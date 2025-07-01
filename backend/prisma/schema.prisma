@@ -30,7 +30,7 @@ model User {
 
   token       Token[]
   socialLinks SocialLink[]
-  Stream      Stream?
+  stream      Stream?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
