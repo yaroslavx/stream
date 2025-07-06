@@ -12,7 +12,10 @@ export class LivekitModule {
     return {
       module: LivekitModule,
       providers: [
-        { provide: LiveKitOptionsSymbol, useValue: options },
+        {
+          provide: LiveKitOptionsSymbol,
+          useValue: options,
+        },
         LivekitService,
       ],
       exports: [LivekitService],
