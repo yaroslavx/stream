@@ -7,8 +7,8 @@ import { ValidationPipe } from "@nestjs/common";
 import { ms, type StringValue } from "@/src/shared/utils/ms.util";
 import { parseBoolean } from "@/src/shared/utils/parse-boolean.util";
 import { RedisService } from "@/src/core/redis/redis.service";
-import RedisStore from 'connect-redis';
-import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
+import RedisStore from "connect-redis";
+import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
 
 async function bootstrap() {
   const app = await NestFactory.create(CoreModule);
@@ -40,7 +40,7 @@ async function bootstrap() {
       },
       store: new RedisStore({
         client: redis,
-        prefix: config.getOrThrow<string>('SESSION_FOLDER'),
+        prefix: config.getOrThrow<string>("SESSION_FOLDER"),
       }),
     }),
   );
