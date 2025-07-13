@@ -1,11 +1,17 @@
 import { BadRequestException, Logger } from "@nestjs/common";
-import { PrismaClient } from "../../../prisma/generated";
+import { PrismaClient, Prisma } from "../../../prisma/generated";
 import { CATEGORIES } from "./data/categories.data";
 import { STREAMS } from "./data/streams.data";
 import { USERNAMES } from "./data/users.data";
 import { hash } from "argon2";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  transactionOptions: {
+    maxWait: 5000,
+    timeout: 15000,
+    isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+  },
+});
 
 async function main() {
   try {
@@ -107,7 +113,7 @@ async function main() {
 
     Logger.log("Заполнение БД завершено");
   } catch (error) {
-    Logger.log(error);
+    Logger.error(error);
     throw new BadRequestException("Ошибки при заполнении БД");
   } finally {
     Logger.log("Закрытие соединения с БД");
