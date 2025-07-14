@@ -10,6 +10,14 @@ export class CategoryService {
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        streams: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
+      },
     });
 
     return categories;
@@ -28,6 +36,14 @@ export class CategoryService {
     const categories = await this.prismaService.category.findMany({
       take: total,
       skip: 0,
+      include: {
+        streams: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
+      },
     });
 
     return Array.from(randomIndexes).map((index) => categories[index]);
