@@ -12,7 +12,7 @@ import { ChangeChatSettingsInput } from "./inputs/change-chat-setting.input";
 export class ChatService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  public async findMessagesByStream(streamId: string) {
+  public async findByStream(streamId: string) {
     const messages = await this.prismaService.chatMessage.findMany({
       where: {
         streamId,
@@ -28,12 +28,8 @@ export class ChatService {
     return messages;
   }
 
-  public async sendMessage(
-    userId: string,
-    streamId: string,
-    input: SendMessageInput,
-  ) {
-    const { text } = input;
+  public async sendMessage(userId: string, input: SendMessageInput) {
+    const { text, streamId } = input;
 
     const stream = await this.prismaService.stream.findUnique({
       where: { id: streamId },
@@ -47,7 +43,7 @@ export class ChatService {
       throw new BadRequestException("Стрим не режиме живого вещания");
     }
 
-    await this.prismaService.chatMessage.create({
+    const message = await this.prismaService.chatMessage.create({
       data: {
         text: text,
         user: {
@@ -63,10 +59,10 @@ export class ChatService {
       },
     });
 
-    return true;
+    return message;
   }
 
-  public async changeSetting(user: User, input: ChangeChatSettingsInput) {
+  public async changeSettings(user: User, input: ChangeChatSettingsInput) {
     const { isChatEnabled, isChatFollowersOnly, isChatPremiumFollowersOnly } =
       input;
 
