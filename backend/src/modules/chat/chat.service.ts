@@ -57,6 +57,9 @@ export class ChatService {
           },
         },
       },
+      include: {
+        stream: true,
+      },
     });
 
     return message;
