@@ -37,6 +37,7 @@ export class FollowService {
       },
       include: {
         following: true,
+        follower: true,
       },
     });
 
