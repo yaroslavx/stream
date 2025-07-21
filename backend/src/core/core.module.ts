@@ -24,6 +24,7 @@ import { WebhookModule } from "../modules/webhook/webhook.module";
 import { CategoryModule } from "../modules/category/category.module";
 import { ChatModule } from "../modules/chat/chat.module";
 import { FollowModule } from "../modules/follow/follow.module";
+import { ChannelModule } from "../modules/channel/channel.module";
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { FollowModule } from "../modules/follow/follow.module";
     CategoryModule,
     ChatModule,
     FollowModule,
+    ChannelModule,
   ],
 })
 export class CoreModule {}
