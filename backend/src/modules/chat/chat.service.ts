@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { SendMessageInput } from "./inputs/send-message.input";
 import { User } from "@/prisma/generated";
-import { ChangeChatSettingsInput } from "./inputs/change-chat-setting.input";
+import { ChangeChatSettingsInput } from "./inputs/change-chat-settings.input";
 
 @Injectable()
 export class ChatService {

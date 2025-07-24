@@ -50,11 +50,20 @@ export class NotificationService {
     const { siteNotifications, telegramNotifications } = input;
 
     const notificationSettings =
-      await this.prismaService.notificationSetting.update({
+      await this.prismaService.notificationSetting.upsert({
         where: {
           userId: user.id,
         },
-        data: {
+        create: {
+          siteNotifications,
+          telegramNotifications,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+        update: {
           siteNotifications,
           telegramNotifications,
         },

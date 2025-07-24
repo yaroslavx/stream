@@ -5,7 +5,7 @@ import { ChatMessageModel } from "./models/chat-message.model";
 import { Authorization } from "@/src/shared/decorators/auth.decorator";
 import { Authorized } from "@/src/shared/decorators/authorized.decorator";
 import { User } from "@/prisma/generated";
-import { ChangeChatSettingsInput } from "./inputs/change-chat-setting.input";
+import { ChangeChatSettingsInput } from "./inputs/change-chat-settings.input";
 import { SendMessageInput } from "./inputs/send-message.input";
 
 @Resolver("Chat")
@@ -39,6 +39,7 @@ export class ChatResolver {
   @Subscription(() => ChatMessageModel, {
     name: "chatMessageAdded",
     filter: (payload, variables) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       payload.chatMessageAdded.streamId === variables.streamId,
   })
   public chatMessageAdded(@Args("streamId") streamId: string) {

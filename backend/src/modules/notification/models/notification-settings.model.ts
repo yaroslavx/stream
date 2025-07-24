@@ -26,6 +26,7 @@ export class NotificationSettingsModel implements NotificationSetting {
   public updatedAt: Date;
 }
 
+@ObjectType()
 export class ChangeNotificationSettingsResponse {
   @Field(() => NotificationSettingsModel)
   public notificationSettings: NotificationSettingsModel;
