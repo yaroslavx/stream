@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { Update } from "nestjs-telegraf";
-import { Telegraf } from "telegraf";
+import { Ctx, Start, Update } from "nestjs-telegraf";
+import { Context, Telegraf } from "telegraf";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 
@@ -15,5 +15,12 @@ export class TelegramService extends Telegraf {
   ) {
     super(configService.getOrThrow<string>("TELEGRAM_BOT_TOKEN"));
     this._token = this.configService.getOrThrow<string>("TELEGRAM_BOT_TOKEN");
+  }
+
+  @Start()
+  public async onStart(@Ctx() ctx: Context) {
+    const username = ctx.message.from.username;
+
+    await ctx.replyWithHTML(`Привет, ${username}`);
   }
 }
