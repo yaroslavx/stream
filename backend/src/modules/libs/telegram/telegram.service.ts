@@ -1,8 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { Ctx, Start, Update } from "nestjs-telegraf";
-import { Context, Telegraf } from "telegraf";
+import { Telegraf } from "telegraf";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
+import { $Enums } from "@prisma/generated";
+import TokenType = $Enums.TokenType;
 
 @Update()
 @Injectable()
@@ -18,9 +20,44 @@ export class TelegramService extends Telegraf {
   }
 
   @Start()
-  public async onStart(@Ctx() ctx: Context) {
-    const username = ctx.message.from.username;
+  public async onStart(@Ctx() ctx: any) {
+    const chatId = ctx.chat.id.toString();
+    const token = ctx.message.text.split(" ")[1];
 
-    await ctx.replyWithHTML(`Привет, ${username}`);
+    if (token) {
+      const authToken = await this.prismaService.token.findUnique({
+        where: {
+          token,
+          type: TokenType.TELEGRAM_AUTH,
+        },
+      });
+
+      const hasExpired = new Date(authToken.expiresIn) < new Date();
+
+      if (!authToken || !hasExpired) {
+        return ctx.reply("Невалидный токен");
+      }
+
+      await this.connectTelegram(authToken.userId, chatId);
+
+      await this.prismaService.token.delete({
+        where: {
+          id: authToken.id,
+        },
+      });
+
+      await ctx.replyWithHTML("Успешная авторизация");
+    }
+  }
+
+  private async connectTelegram(userId: string, chatId: string) {
+    return this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        telegramId: chatId,
+      },
+    });
   }
 }
