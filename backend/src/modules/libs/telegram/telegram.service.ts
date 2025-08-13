@@ -34,7 +34,7 @@ export class TelegramService extends Telegraf {
 
       const hasExpired = new Date(authToken.expiresIn) < new Date();
 
-      if (!authToken || !hasExpired) {
+      if (!authToken) {
         return ctx.reply("Невалидный токен");
       }
 
@@ -51,7 +51,7 @@ export class TelegramService extends Telegraf {
   }
 
   private async connectTelegram(userId: string, chatId: string) {
-    return this.prismaService.user.update({
+    await this.prismaService.user.update({
       where: {
         id: userId,
       },
