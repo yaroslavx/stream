@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { Ctx, Start, Update } from "nestjs-telegraf";
-import { Telegraf } from "telegraf";
+import { Command, Ctx, Start, Update } from "nestjs-telegraf";
+import { Context, Telegraf } from "telegraf";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 import { $Enums } from "@prisma/generated";
@@ -32,10 +32,14 @@ export class TelegramService extends Telegraf {
         },
       });
 
+      if (!authToken) {
+        return ctx.reply("Токен не найден");
+      }
+
       const hasExpired = new Date(authToken.expiresIn) < new Date();
 
-      if (!authToken) {
-        return ctx.reply("Невалидный токен");
+      if (hasExpired) {
+        return ctx.reply("Токен невалиден");
       }
 
       await this.connectTelegram(authToken.userId, chatId);
@@ -46,8 +50,25 @@ export class TelegramService extends Telegraf {
         },
       });
 
-      await ctx.replyWithHTML("Успешная авторизация");
+      return await ctx.replyWithHTML("Успешная авторизация");
     }
+
+    const user = await this.findUserByChatId(chatId);
+
+    if (user) {
+      return await this.onMe(ctx);
+    }
+
+    await ctx.replyWithHTML("Добро пожаловать");
+  }
+
+  @Command("me")
+  public async onMe(@Ctx() ctx: Context) {
+    const chatId = ctx.chat.id.toString();
+
+    const user = await this.findUserByChatId(chatId);
+
+    await ctx.replyWithHTML(`Email пользователя: ${user.email}`);
   }
 
   private async connectTelegram(userId: string, chatId: string) {
@@ -59,5 +80,19 @@ export class TelegramService extends Telegraf {
         telegramId: chatId,
       },
     });
+  }
+
+  private async findUserByChatId(chatId: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        telegramId: chatId,
+      },
+      include: {
+        followers: true,
+        followings: true,
+      },
+    });
+
+    return user;
   }
 }
