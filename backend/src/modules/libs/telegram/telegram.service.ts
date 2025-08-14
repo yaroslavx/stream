@@ -5,6 +5,8 @@ import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 import { $Enums } from "@prisma/generated";
 import TokenType = $Enums.TokenType;
+import { MESSAGES } from "./telegram.messages";
+import { BUTTONS } from "@/src/modules/libs/telegram/telegram.button";
 
 @Update()
 @Injectable()
@@ -33,13 +35,13 @@ export class TelegramService extends Telegraf {
       });
 
       if (!authToken) {
-        return ctx.reply("Токен не найден");
+        await ctx.reply(MESSAGES.invalidToken);
       }
 
       const hasExpired = new Date(authToken.expiresIn) < new Date();
 
       if (hasExpired) {
-        return ctx.reply("Токен невалиден");
+        await ctx.reply(MESSAGES.invalidToken);
       }
 
       await this.connectTelegram(authToken.userId, chatId);
@@ -50,16 +52,16 @@ export class TelegramService extends Telegraf {
         },
       });
 
-      return await ctx.replyWithHTML("Успешная авторизация");
+      await ctx.replyWithHTML(MESSAGES.authSuccess, BUTTONS.authSuccess);
     }
 
     const user = await this.findUserByChatId(chatId);
 
     if (user) {
       return await this.onMe(ctx);
+    } else {
+      await ctx.replyWithHTML(MESSAGES.welcome, BUTTONS.profile);
     }
-
-    await ctx.replyWithHTML("Добро пожаловать");
   }
 
   @Command("me")
@@ -67,8 +69,16 @@ export class TelegramService extends Telegraf {
     const chatId = ctx.chat.id.toString();
 
     const user = await this.findUserByChatId(chatId);
+    const followersCount = await this.prismaService.follow.count({
+      where: {
+        followingId: user.id,
+      },
+    });
 
-    await ctx.replyWithHTML(`Email пользователя: ${user.email}`);
+    await ctx.replyWithHTML(
+      MESSAGES.profile(user, followersCount),
+      BUTTONS.profile,
+    );
   }
 
   private async connectTelegram(userId: string, chatId: string) {
