@@ -3,7 +3,7 @@ import { Action, Command, Ctx, Start, Update } from "nestjs-telegraf";
 import { Context, Telegraf } from "telegraf";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
-import { $Enums } from "@prisma/generated";
+import { $Enums, User } from "@prisma/generated";
 import TokenType = $Enums.TokenType;
 import { MESSAGES } from "./telegram.messages";
 import { BUTTONS } from "@/src/modules/libs/telegram/telegram.button";
@@ -122,6 +122,40 @@ export class TelegramService extends Telegraf {
     await this.telegram.sendMessage(
       chatId,
       MESSAGES.resetPassword(token, metadata),
+      { parse_mode: "HTML" },
+    );
+  }
+
+  public async sendDeactivateToken(
+    chatId: string,
+    token: string,
+    metadata: SessionMetadata,
+  ) {
+    await this.telegram.sendMessage(
+      chatId,
+      MESSAGES.deactivate(token, metadata),
+      { parse_mode: "HTML" },
+    );
+  }
+
+  public async sendAccountDeletion(chatId: string) {
+    await this.telegram.sendMessage(chatId, MESSAGES.accountDeleted, {
+      parse_mode: "HTML",
+    });
+  }
+
+  public async sendStreamStart(chatId: string, channel: User) {
+    await this.telegram.sendMessage(chatId, MESSAGES.streamStart(channel), {
+      parse_mode: "HTML",
+    });
+  }
+
+  public async sendNewFollowing(chatId: string, follower: User) {
+    const user = await this.findUserByChatId(chatId);
+
+    await this.telegram.sendMessage(
+      chatId,
+      MESSAGES.newFollowing(follower, user.followings.length),
       { parse_mode: "HTML" },
     );
   }
