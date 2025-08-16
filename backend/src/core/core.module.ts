@@ -27,6 +27,8 @@ import { FollowModule } from "../modules/follow/follow.module";
 import { ChannelModule } from "../modules/channel/channel.module";
 import { NotificationModule } from "@/src/modules/notification/notification.module";
 import { TelegramModule } from "@/src/modules/libs/telegram/telegram.module";
+import { StripeModule } from "@/src/modules/libs/stripe/stripe.module";
+import { getStripeConfig } from "@/src/core/config/stripe.config";
 
 @Module({
   imports: [
@@ -45,12 +47,18 @@ import { TelegramModule } from "@/src/modules/libs/telegram/telegram.module";
       useFactory: getLiveKitConfig,
       inject: [ConfigService],
     }),
+    StripeModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: getStripeConfig,
+      inject: [ConfigService],
+    }),
     PrismaModule,
     RedisModule,
     MailModule,
     StorageModule,
     LivekitModule,
     TelegramModule,
+    StripeModule,
     CronModule,
     AccountModule,
     SessionModule,
