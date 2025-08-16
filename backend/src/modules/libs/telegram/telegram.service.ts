@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Command, Ctx, Start, Update } from "nestjs-telegraf";
+import { Action, Command, Ctx, Start, Update } from "nestjs-telegraf";
 import { Context, Telegraf } from "telegraf";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
@@ -53,18 +53,19 @@ export class TelegramService extends Telegraf {
       });
 
       await ctx.replyWithHTML(MESSAGES.authSuccess, BUTTONS.authSuccess);
-    }
-
-    const user = await this.findUserByChatId(chatId);
-
-    if (user) {
-      return await this.onMe(ctx);
     } else {
-      await ctx.replyWithHTML(MESSAGES.welcome, BUTTONS.profile);
+      const user = await this.findUserByChatId(chatId);
+
+      if (user) {
+        return await this.onMe(ctx);
+      } else {
+        await ctx.replyWithHTML(MESSAGES.welcome, BUTTONS.profile);
+      }
     }
   }
 
   @Command("me")
+  @Action("me")
   public async onMe(@Ctx() ctx: Context) {
     const chatId = ctx.chat.id.toString();
 
