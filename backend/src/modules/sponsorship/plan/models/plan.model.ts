@@ -16,7 +16,7 @@ export class PlanModel implements SponsorshipPlan {
   @Field(() => String)
   public title: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   public description: string;
 
   @Field(() => Number)
