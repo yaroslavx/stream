@@ -1,6 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "@/src/core/prisma/prisma.service";
-import { $Enums, NotificationType, User } from "@prisma/generated";
+import {
+  $Enums,
+  NotificationType,
+  SponsorshipPlan,
+  User,
+} from "@prisma/generated";
 import { ChangeNotificationSettingsInput } from "@/src/modules/notification/inputs/change-notification-settings.input";
 import { generateToken } from "@/src/shared/utils/generate-token.util";
 import TokenType = $Enums.TokenType;
@@ -78,6 +83,53 @@ export class NotificationService {
 
     return notification;
   }
+
+  public async createNewSponsorship(
+    userId: string,
+    plan: SponsorshipPlan,
+    sponsor: User,
+  ) {
+    const notification = await this.prismaService.notification.create({
+      data: {
+        message: `<b className='font-medium'>У вас новый спонсор!</b>
+				<p>Пользователь <a href='/${sponsor.username}' className='font-semibold'>${sponsor.displayName}</a> стал вашим спонсором, выбрав план <strong>${plan.title}</strong>.</p>`,
+        type: NotificationType.NEW_SPONSORSHIP,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    return notification;
+  }
+  //
+  // public async createEnableTwoFactor(userId: string) {
+  //   const notification = await this.prismaService.notification.create({
+  //     data: {
+  //       message: `<b className='font-medium'>Обеспечьте свою безопасность!</b>
+  // 			<p>Включите двухфакторную аутентификацию в настройках вашего аккаунта, чтобы повысить уровень защиты.</p>`,
+  //       type: NotificationType.ENABLE_TWO_FACTOR,
+  //       userId
+  //     }
+  //   })
+  //
+  //   return notification
+  // }
+  //
+  // public async createVerifyChannel(userId: string) {
+  //   const notification = await this.prismaService.notification.create({
+  //     data: {
+  //       message: `<b className='font-medium'>Поздравляем!</b>
+  // 		  <p>Ваш канал верифицирован, и теперь рядом с вашим каналом будет галочка.</p>`,
+  //       type: NotificationType.VERIFIED_CHANNEL,
+  //       userId
+  //     }
+  //   })
+  //
+  //   return notification
+  // }
 
   public async changeSettings(
     user: User,

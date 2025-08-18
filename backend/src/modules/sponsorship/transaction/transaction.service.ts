@@ -71,7 +71,6 @@ export class TransactionService {
             currency: "rub",
             product_data: {
               name: plan.title,
-              description: plan.description ?? "",
             },
             unit_amount: Math.round(plan.price * 100),
             recurring: {
@@ -82,7 +81,7 @@ export class TransactionService {
         },
       ],
       mode: "subscription",
-      success_url: `${this.configService.getOrThrow<string>("ALLOWED_ORIGIN")}/success?price=${plan.price}&username=${plan.channel.username}`,
+      success_url: `${this.configService.getOrThrow<string>("ALLOWED_ORIGIN")}/success?plan=${encodeURIComponent(plan.title)}&username=${encodeURIComponent(plan.channel.username)}`,
       cancel_url: this.configService.getOrThrow<string>("ALLOWED_ORIGIN"),
       customer: customer.id,
       metadata: {

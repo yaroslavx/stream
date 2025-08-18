@@ -3,6 +3,8 @@ import { Injectable } from "@nestjs/common";
 import { LivekitService } from "../libs/livekit/livekit.service";
 import { NotificationService } from "@/src/modules/notification/notification.service";
 import { TelegramService } from "@/src/modules/libs/telegram/telegram.service";
+import Stripe from "stripe";
+import { TransactionStatus } from "@prisma/generated";
 
 @Injectable()
 export class WebhookService {
@@ -86,6 +88,70 @@ export class WebhookService {
           streamId: stream.id,
         },
       });
+    }
+  }
+
+  public async receiveWebhookStripe(event: Stripe.Event) {
+    const session = event.data.object as Stripe.Checkout.Session;
+
+    if (event.type === "checkout.session.completed") {
+      const planId = session.metadata.planId;
+      const userId = session.metadata.userId;
+      const channelId = session.metadata.channelId;
+
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDay() + 30);
+
+      const sponsorshipSubscription =
+        await this.prismaService.sponsorshipSubscription.create({
+          data: {
+            expiresAt,
+            planId,
+            userId,
+            channelId,
+          },
+          include: {
+            plan: true,
+            user: true,
+            channel: {
+              include: {
+                notificationSettings: true,
+              },
+            },
+          },
+        });
+
+      await this.prismaService.transaction.updateMany({
+        where: {
+          stripeSubscriptionId: session.id,
+          status: TransactionStatus.PENDING,
+        },
+        data: {
+          status: TransactionStatus.SUCCESS,
+        },
+      });
+
+      if (
+        sponsorshipSubscription.channel.notificationSettings.siteNotifications
+      ) {
+        await this.notificationService.createNewSponsorship(
+          sponsorshipSubscription.channel.id,
+          sponsorshipSubscription.plan,
+          sponsorshipSubscription.user,
+        );
+      }
+
+      if (
+        sponsorshipSubscription.channel.notificationSettings
+          .telegramNotifications &&
+        sponsorshipSubscription.channel.telegramId
+      ) {
+        await this.telegramService.sendNewSponsorship(
+          sponsorshipSubscription.channel.id,
+          sponsorshipSubscription.plan,
+          sponsorshipSubscription.user,
+        );
+      }
     }
   }
 }
