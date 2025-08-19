@@ -11,7 +11,7 @@ import RedisStore from "connect-redis";
 import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
 
 async function bootstrap() {
-  const app = await NestFactory.create(CoreModule);
+  const app = await NestFactory.create(CoreModule, { rawBody: true });
 
   const config = app.get(ConfigService);
   const redis = app.get(RedisService);

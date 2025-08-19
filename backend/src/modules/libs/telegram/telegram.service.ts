@@ -25,7 +25,8 @@ export class TelegramService extends Telegraf {
   @Start()
   public async onStart(@Ctx() ctx: Context) {
     const chatId = ctx.chat.id.toString();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const token = ctx.message?.text.split(" ")[1];
 
     if (token) {

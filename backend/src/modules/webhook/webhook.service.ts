@@ -5,12 +5,16 @@ import { NotificationService } from "@/src/modules/notification/notification.ser
 import { TelegramService } from "@/src/modules/libs/telegram/telegram.service";
 import Stripe from "stripe";
 import { TransactionStatus } from "@prisma/generated";
+import { StripeService } from "@/src/modules/libs/stripe/stripe.service";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class WebhookService {
   public constructor(
     private readonly prismaService: PrismaService,
+    private readonly configService: ConfigService,
     private readonly livekitService: LivekitService,
+    private readonly stripeService: StripeService,
     private readonly notificationService: NotificationService,
     private readonly telegramService: TelegramService,
   ) {}
@@ -147,11 +151,41 @@ export class WebhookService {
         sponsorshipSubscription.channel.telegramId
       ) {
         await this.telegramService.sendNewSponsorship(
-          sponsorshipSubscription.channel.id,
+          sponsorshipSubscription.channel.telegramId,
           sponsorshipSubscription.plan,
           sponsorshipSubscription.user,
         );
       }
     }
+
+    if (event.type === "checkout.session.expired") {
+      await this.prismaService.transaction.updateMany({
+        where: {
+          stripeSubscriptionId: session.id,
+        },
+        data: {
+          status: TransactionStatus.EXPIRED,
+        },
+      });
+    }
+
+    if (event.type === "checkout.session.async_payment_failed") {
+      await this.prismaService.transaction.updateMany({
+        where: {
+          stripeSubscriptionId: session.id,
+        },
+        data: {
+          status: TransactionStatus.FAILED,
+        },
+      });
+    }
+  }
+
+  public constructStripeEvent(payload: any, signature: any) {
+    return this.stripeService.webhooks.constructEvent(
+      payload,
+      signature,
+      this.configService.getOrThrow<string>("STRIPE_WEBHOOK_SECRET"),
+    );
   }
 }
