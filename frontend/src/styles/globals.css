@@ -1,8 +1,5 @@
 @import "tailwindcss";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../../tailwind.config.ts";
 
 @layer base {
   :root {
@@ -62,15 +59,15 @@
 
 @layer base {
   * {
-    /*@apply border-border;*/
+    @apply border-border;
   }
 
   html {
-    /*@apply scroll-smooth;*/
+    @apply scroll-smooth;
   }
 
   body {
-    /*@apply overscroll-none bg-background text-foreground;*/
+    @apply overscroll-none bg-background text-foreground;
 
     font-family: var(--font-geist-sans), sans-serif;
     height: 100vh;
@@ -82,9 +79,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  /*@apply bg-background;*/
+  @apply bg-background;
 }
 
 ::-webkit-scrollbar-thumb {
-  /*@apply rounded-full bg-secondary;*/
+  @apply rounded-full bg-secondary;
 }

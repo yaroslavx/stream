@@ -5,6 +5,7 @@ import { getLocale, getMessages } from "next-intl/server";
 import { ApolloClientProvider } from "@/providers/ApolloClientProvider";
 
 import "../styles/globals.css";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,7 +25,13 @@ export default async function RootLayout({
       <body className={GeistSans.variable}>
         <ApolloClientProvider>
           <NextIntlClientProvider messages={messages}>
-            {children}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              disableTransitionOnChange={true}
+            >
+              {children}
+            </ThemeProvider>
           </NextIntlClientProvider>
         </ApolloClientProvider>
       </body>
