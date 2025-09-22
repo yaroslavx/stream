@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { Button } from "@/components/ui/common/Button";
 import {
   Card,
