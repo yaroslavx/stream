@@ -25,7 +25,7 @@ export function AuthWrapper({
   return (
     <div className="flex h-full items-center justify-center">
       <Card className="w-[450px]">
-        <CardHeader className="flex-row items-center justify-center gap-x-4">
+        <CardHeader className="flex items-center justify-center gap-x-4">
           <Image
             src="/images/logo.svg"
             alt="Stream logo"
