@@ -6,6 +6,7 @@ import { ApolloClientProvider } from "@/providers/ApolloClientProvider";
 
 import "../styles/globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { ToastProvider } from "@/providers/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,6 +31,7 @@ export default async function RootLayout({
               defaultTheme="dark"
               disableTransitionOnChange={true}
             >
+              <ToastProvider />
               {children}
             </ThemeProvider>
           </NextIntlClientProvider>
