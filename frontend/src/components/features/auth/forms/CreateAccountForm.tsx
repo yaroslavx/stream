@@ -1,10 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { AuthWrapper } from "@/components/features/auth/AuthWrapper";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/common/Alert";
 import { Button } from "@/components/ui/common/Button";
 import {
   Form,
@@ -22,6 +29,8 @@ import {
 } from "@/schemas/auth/create-account.schema";
 
 export default function CreateAccountForm() {
+  const t = useTranslations("auth.register");
+
   const [isSuccess, setIsSuccess] = useState(false);
 
   const form = useForm<TypeCreateAccountSchema>({
@@ -38,7 +47,7 @@ export default function CreateAccountForm() {
       setIsSuccess(true);
     },
     onError: () => {
-      toast.error("Ошибка при регистрация.");
+      toast.error(t("errorMessage"));
     },
   });
 
@@ -54,12 +63,16 @@ export default function CreateAccountForm() {
 
   return (
     <AuthWrapper
-      heading="Регистрация"
-      backButtonLabel="Есть учетная запись? Войти"
+      heading={t("heading")}
+      backButtonLabel={t("backButtonLabel")}
       backButtonHref="/account/login"
     >
       {isSuccess ? (
-        <div>Success</div>
+        <Alert>
+          <CircleCheck className="size-4" />
+          <AlertTitle>{t("successAlertTitle")}</AlertTitle>
+          <AlertDescription>{t("successAlertDescription")}</AlertDescription>
+        </Alert>
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
@@ -68,7 +81,7 @@ export default function CreateAccountForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Имя пользователя</FormLabel>
+                  <FormLabel>{t("usernameLabel")}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="johndoe"
@@ -76,7 +89,7 @@ export default function CreateAccountForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Поле для ввода имени</FormDescription>
+                  <FormDescription>{t("usernameDescription")}</FormDescription>
                 </FormItem>
               )}
             />
@@ -85,7 +98,7 @@ export default function CreateAccountForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Почта</FormLabel>
+                  <FormLabel>{t("emailLabel")}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="john.doe@example.com"
@@ -93,7 +106,7 @@ export default function CreateAccountForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Поле для ввода почты</FormDescription>
+                  <FormDescription>{t("emailDescription")}</FormDescription>
                 </FormItem>
               )}
             />
@@ -102,7 +115,7 @@ export default function CreateAccountForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Пароль</FormLabel>
+                  <FormLabel>{t("passwordLabel")}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="********"
@@ -111,12 +124,12 @@ export default function CreateAccountForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Поле для ввода пароля</FormDescription>
+                  <FormDescription>{t("passwordDescription")}</FormDescription>
                 </FormItem>
               )}
             />
             <Button className="mt-2 w-full" disabled={!isValid || creatingUser}>
-              Продолжить
+              {t("submitButton")}
             </Button>
           </form>
         </Form>
