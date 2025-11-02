@@ -14,6 +14,8 @@
     "errorMessage": "Error when creating an account"
   },
   "verify": {
+    "heading": "Account verification",
     "successMessage": "Account verified",
+    "errorMessage": "Verification error"
   }
 }
