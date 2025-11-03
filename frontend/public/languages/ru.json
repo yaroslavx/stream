@@ -18,6 +18,20 @@
       "heading": "Верификация аккаунта",
       "successMessage": "Аккаунт верифицирован",
       "errorMessage": "Ошибка при верификации"
+    },
+    "login": {
+      "heading": "Войти в TeaStream",
+      "backButtonLabel": "У вас нет учетной записи? Зарегистрируйтесь!",
+      "loginLabel": "Логин",
+      "loginDescription": "Ваше имя или почта, которые вы вводили при регистрации.",
+      "passwordLabel": "Пароль",
+      "passwordDescription": "Пароль, который вы вводили при регистрации.",
+      "pinLabel": "6-значный код",
+      "pinDescription": "Введите код из вашего приложения для аутентификации.",
+      "forgotPassword": "Забыли пароль?",
+      "submitButton": "Войти",
+      "successMessage": "Вы успешно вошли в систему",
+      "errorMessage": "Ошибка при входе в систему"
     }
   }
 }

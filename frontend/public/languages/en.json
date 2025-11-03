@@ -17,5 +17,19 @@
     "heading": "Account verification",
     "successMessage": "Account verified",
     "errorMessage": "Verification error"
-  }
+  },
+  "login": {
+  "heading": "Login to TeaStream",
+  "backButtonLabel": "Don't have an account? Sign up!",
+  "loginLabel": "Login",
+  "loginDescription": "Your username or email that you used during registration.",
+  "passwordLabel": "Password",
+  "passwordDescription": "The password you used during registration.",
+  "pinLabel": "6-digit code",
+  "pinDescription": "Enter the code from your authentication app.",
+  "forgotPassword": "Forgot password?",
+  "submitButton": "Login",
+  "successMessage": "You have successfully logged in",
+  "errorMessage": "Error when logging in"
+}
 }
