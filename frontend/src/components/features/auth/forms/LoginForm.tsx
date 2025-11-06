@@ -17,6 +17,11 @@ import {
   FormLabel,
 } from "@/components/ui/common/Form";
 import { Input } from "@/components/ui/common/Input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/common/InputOTP";
 import { useLoginUserMutation } from "@/graphql/generated/output";
 import { loginSchema, TypeLoginSchema } from "@/schemas/auth/login.schema";
 
@@ -68,7 +73,28 @@ export function LoginForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
           {isShowTwoFactor ? (
-            <div>PIN</div>
+            <FormField
+              control={form.control}
+              name="pin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("pinLabel")}</FormLabel>
+                  <FormControl>
+                    <InputOTP maxLength={6} {...field}>
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormDescription>{t("pinDescription")}</FormDescription>
+                </FormItem>
+              )}
+            />
           ) : (
             <>
               <FormField
