@@ -8,9 +8,12 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { AuthWrapper } from "@/components/features/auth/AuthWrapper";
 import { useVerifyAccountMutation } from "@/graphql/generated/output";
+import { useAuth } from "@/hooks/useAuth";
 
 export function VerifyAccountForm() {
   const t = useTranslations("auth.verify");
+
+  const { auth } = useAuth();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -19,6 +22,7 @@ export function VerifyAccountForm() {
 
   const [verify] = useVerifyAccountMutation({
     onCompleted() {
+      auth();
       toast.error(t("successMessage"));
       router.push("/dashboard/settings");
     },

@@ -24,10 +24,13 @@ import {
   InputOTPSlot,
 } from "@/components/ui/common/InputOTP";
 import { useLoginUserMutation } from "@/graphql/generated/output";
+import { useAuth } from "@/hooks/useAuth";
 import { loginSchema, TypeLoginSchema } from "@/schemas/auth/login.schema";
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
+
+  const { auth } = useAuth();
 
   const router = useRouter();
 
@@ -46,6 +49,7 @@ export function LoginForm() {
       if (data.loginUser.message) {
         setIsShowTwoFactor(true);
       } else {
+        auth();
         toast.success(t("successMessage"));
         router.push("/dashboard/settings");
       }
