@@ -1,56 +1,110 @@
 {
-  "register": {
-    "heading": "Register on Stream",
-    "backButtonLabel": "Already have an account? Sign in",
-    "usernameLabel": "Username",
-    "usernameDescription": "This is the name other users will know you by. You can change it later.",
-    "emailLabel": "Email",
-    "emailDescription": "We may use your email for sending account-related notifications.",
-    "passwordLabel": "Password",
-    "passwordDescription": "The password must contain at least 8 characters.",
-    "submitButton": "Sign up",
-    "successAlertTitle": "Check Your Email",
-    "successAlertDescription": "A verification email has been sent to your inbox. If you don't see the email, check your spam folder",
-    "errorMessage": "Error when creating an account"
+  "layout": {
+    "header": {
+      "logo": {
+        "platform": "Streaming platform"
+      },
+      "headerMenu": {
+        "login": "Sign In",
+        "register": "Sign Up",
+        "profileMenu": {
+          "notifications": {
+            "heading": "Notifications",
+            "loading": "Loading...",
+            "empty": "You have no notifications"
+          },
+          "successMessage": "Successfully logged out",
+          "errorMessage": "Logout error",
+          "channel": "My channel",
+          "dashboard": "Dashboard",
+          "logout": "Sign out"
+        }
+      },
+      "search": {
+        "placeholder": "Search"
+      }
+    },
+    "sidebar": {
+      "header": {
+        "expand": "Expand",
+        "collapse": "Collapse",
+        "navigation": "Navigation"
+      },
+      "userNav": {
+        "home": "Home",
+        "categories": "Categories",
+        "streams": "Streams",
+        "recommended": "Recommended"
+      },
+      "recommended": {
+        "heading": "Recommendations"
+      },
+      "dashboardNav": {
+        "settings": "Settings",
+        "streamSettings": "Stream Settings",
+        "keys": "Stream Keys",
+        "chatSettings": "Chat Settings",
+        "followers": "Followers",
+        "sponsors": "Sponsors",
+        "premium": "Premium Plans",
+        "transactions": "Transactions"
+      }
+    }
   },
-  "verify": {
-    "heading": "Account verification",
-    "successMessage": "Account verified",
-    "errorMessage": "Verification error"
-  },
-  "login": {
-    "heading": "Login to TeaStream",
-    "backButtonLabel": "Don't have an account? Sign up!",
-    "loginLabel": "Login",
-    "loginDescription": "Your username or email that you used during registration.",
-    "passwordLabel": "Password",
-    "passwordDescription": "The password you used during registration.",
-    "pinLabel": "6-digit code",
-    "pinDescription": "Enter the code from your authentication app.",
-    "forgotPassword": "Forgot password?",
-    "submitButton": "Login",
-    "successMessage": "You have successfully logged in",
-    "errorMessage": "Error when logging in"
-  },
-  "resetPassword": {
-    "heading": "Reset password",
-    "backButtonLabel": "Already have an account? Sign in",
-    "emailLabel": "Email",
-    "emailDescription": "The email you used during registration",
-    "submitButton": "Reset password",
-    "successAlertTitle": "Link sent",
-    "successAlertDescription": "We have sent a password reset link to your email. If you have enabled Telegram notifications, the link was sent there as well",
-    "errorMessage": "Password reset error"
-  },
-  "newPassword": {
-    "heading": "New password",
-    "backButtonLabel": "Already have an account? Sign in",
-    "passwordLabel": "New password",
-    "passwordDescription": "The password you used during registration",
-    "passwordRepeatLabel": "Repeat password",
-    "passwordRepeatDescription": "Repeat your new password for confirmation",
-    "submitButton": "Set new password",
-    "successMessage": "Password successfully changed",
-    "errorMessage": "Error when setting a new password"
+  "auth": {
+    "register": {
+      "heading": "Register on Stream",
+      "backButtonLabel": "Already have an account? Sign in",
+      "usernameLabel": "Username",
+      "usernameDescription": "This is the name other users will know you by. You can change it later.",
+      "emailLabel": "Email",
+      "emailDescription": "We may use your email for sending account-related notifications.",
+      "passwordLabel": "Password",
+      "passwordDescription": "The password must contain at least 8 characters.",
+      "submitButton": "Sign up",
+      "successAlertTitle": "Check Your Email",
+      "successAlertDescription": "A verification email has been sent to your inbox. If you don't see the email, check your spam folder",
+      "errorMessage": "Error when creating an account"
+    },
+    "verify": {
+      "heading": "Account verification",
+      "successMessage": "Account verified",
+      "errorMessage": "Verification error"
+    },
+    "login": {
+      "heading": "Login to TeaStream",
+      "backButtonLabel": "Don't have an account? Sign up!",
+      "loginLabel": "Login",
+      "loginDescription": "Your username or email that you used during registration.",
+      "passwordLabel": "Password",
+      "passwordDescription": "The password you used during registration.",
+      "pinLabel": "6-digit code",
+      "pinDescription": "Enter the code from your authentication app.",
+      "forgotPassword": "Forgot password?",
+      "submitButton": "Login",
+      "successMessage": "You have successfully logged in",
+      "errorMessage": "Error when logging in"
+    },
+    "resetPassword": {
+      "heading": "Reset password",
+      "backButtonLabel": "Already have an account? Sign in",
+      "emailLabel": "Email",
+      "emailDescription": "The email you used during registration",
+      "submitButton": "Reset password",
+      "successAlertTitle": "Link sent",
+      "successAlertDescription": "We have sent a password reset link to your email. If you have enabled Telegram notifications, the link was sent there as well",
+      "errorMessage": "Password reset error"
+    },
+    "newPassword": {
+      "heading": "New password",
+      "backButtonLabel": "Already have an account? Sign in",
+      "passwordLabel": "New password",
+      "passwordDescription": "The password you used during registration",
+      "passwordRepeatLabel": "Repeat password",
+      "passwordRepeatDescription": "Repeat your new password for confirmation",
+      "submitButton": "Set new password",
+      "successMessage": "Password successfully changed",
+      "errorMessage": "Error when setting a new password"
+    }
   }
 }

@@ -1,3 +1,9 @@
+import { Logo } from "@/components/layout/header/Logo";
+
 export function Header() {
-  return <div>Header</div>;
+  return (
+    <header className="flex h-full items-center gap-x-4 border-b border-border bg-card p-4">
+      <Logo />
+    </header>
+  );
 }
