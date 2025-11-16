@@ -641,7 +641,7 @@ export type ClearSessionCookieMutation = { __typename?: 'Mutation', clearSession
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', username: string, displayName: string, email: string } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', username: string, displayName: string, email: string, avatar?: string | null } };
 
 
 export const CreateUserDocument = gql`
@@ -875,6 +875,7 @@ export const FindProfileDocument = gql`
     username
     displayName
     email
+    avatar
   }
 }
     `;

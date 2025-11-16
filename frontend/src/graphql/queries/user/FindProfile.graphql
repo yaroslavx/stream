@@ -3,5 +3,6 @@ query FindProfile {
     username
     displayName
     email
+    avatar
   }
 }
