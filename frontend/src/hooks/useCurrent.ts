@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   useClearSessionCookieMutation,
   useFindProfileQuery,
@@ -13,12 +14,14 @@ export function useCurrent() {
 
   const [clear] = useClearSessionCookieMutation();
 
-  if (error) {
-    if (isAuthenticated) {
-      clear();
+  useEffect(() => {
+    if (error) {
+      if (isAuthenticated) {
+        clear();
+      }
+      exit();
     }
-    exit();
-  }
+  }, [isAuthenticated, clear, exit, error]);
 
   return {
     user: data?.findProfile,
