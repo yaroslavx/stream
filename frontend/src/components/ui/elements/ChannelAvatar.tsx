@@ -1,7 +1,8 @@
-import {AvatarFallback} from "@radix-ui/react-avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
 import { cva, VariantProps } from "class-variance-authority";
-import {Avatar, AvatarImage} from "@/components/ui/common/Avatar";
+import { Avatar, AvatarImage } from "@/components/ui/common/Avatar";
 import { FindProfileQuery } from "@/graphql/generated/output";
+import { getMediaSource } from "@/utils/get-media-source";
 import { cn } from "@/utils/tw-merge";
 
 const avatarSizes = cva("", {
@@ -28,10 +29,11 @@ export function ChannelAvatar({ size, channel, isLive }: ChannelAvatarProps) {
       <Avatar
         className={cn(avatarSizes({ size }), isLive && "ring-2 ring-rose-500")}
       >
-          <AvatarImage src={} className='object-cover'/>
-          <AvatarFallback>
-              {channel.username[0]}
-          </AvatarFallback>
+        <AvatarImage
+          src={getMediaSource(channel.avatar)}
+          className="object-cover"
+        />
+        <AvatarFallback>{channel.username[0]}</AvatarFallback>
       </Avatar>
     </div>
   );
