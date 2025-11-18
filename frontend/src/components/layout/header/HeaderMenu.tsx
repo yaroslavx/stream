@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { ProfileMenu } from "@/components/layout/header/ProfileMenu";
 import { Button } from "@/components/ui/common/Button";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -13,7 +14,7 @@ export function HeaderMenu() {
   return (
     <div className="ml-auto flex items-center gap-x-4">
       {isAuthenticated ? (
-        <div></div>
+        <ProfileMenu />
       ) : (
         <>
           <Link href="/account/login">

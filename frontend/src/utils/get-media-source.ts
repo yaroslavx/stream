@@ -1,4 +1,6 @@
+import { MEDIA_URL } from "@/libs/constants/url.constants";
+
 export function getMediaSource(path?: string | null) {
-  if (!process.env.NEXT_PUBLIC_MEDIA_URL || !path) return;
-  return process.env.NEXT_PUBLIC_MEDIA_URL + path;
+  if (!MEDIA_URL || !path) return;
+  return MEDIA_URL + path;
 }
