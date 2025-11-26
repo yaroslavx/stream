@@ -1,10 +1,13 @@
+import parse from "html-react-parser";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Fragment } from "react";
 import { Separator } from "@/components/ui/common/Separator";
 import {
   useFindNotificationsByUserQuery,
   useFindNotificationsUnreadCountQuery,
 } from "@/graphql/generated/output";
+import { getNotificationIcon } from "@/utils/get-notification-icon";
 
 export function NotificationsList() {
   const t = useTranslations("layout.headerMenu.profileMenu.notifications");
@@ -31,7 +34,21 @@ export function NotificationsList() {
         </div>
       ) : notifications.length ? (
         notifications.map((notification, index) => {
-          return <div>{notification.message}</div>;
+          const Icon = getNotificationIcon(notification.type);
+
+          return (
+            <Fragment key={notification.id}>
+              <div className="flex items-center gap-x-3 text-sm">
+                <div className="rounded-full bg-foreground p-2">
+                  <Icon className="size-6 text-secondary" />
+                </div>
+                <div>{parse(notification.message)}</div>
+              </div>
+              {index < notifications.length - 1 && (
+                <Separator className="my-3" />
+              )}
+            </Fragment>
+          );
         })
       ) : (
         <div className="text-center text-muted-foreground">{t("empty")}</div>
