@@ -72,7 +72,7 @@
       "errorMessage": "Verification error"
     },
     "login": {
-      "heading": "Login to TeaStream",
+      "heading": "Login to Stream",
       "backButtonLabel": "Don't have an account? Sign up!",
       "loginLabel": "Login",
       "loginDescription": "Your username or email that you used during registration.",

@@ -72,7 +72,7 @@
       "errorMessage": "Ошибка при верификации"
     },
     "login": {
-      "heading": "Войти в TeaStream",
+      "heading": "Войти в Stream",
       "backButtonLabel": "У вас нет учетной записи? Зарегистрируйтесь!",
       "loginLabel": "Логин",
       "loginDescription": "Ваше имя или почта, которые вы вводили при регистрации.",
