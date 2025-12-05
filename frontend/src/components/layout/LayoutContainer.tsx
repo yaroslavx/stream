@@ -11,17 +11,21 @@ export function LayoutContainer({ children }: PropsWithChildren<unknown>) {
   const { isCollapsed, collapse, open } = useSidebar();
 
   useEffect(() => {
-    if (!isMobile && !isCollapsed && !isMobile) {
-      open();
-    } else if (!isMobile && isCollapsed) {
-      collapse();
+    if (isMobile) {
+      if (!isCollapsed) {
+        collapse();
+      }
+    } else {
+      if (isCollapsed) {
+        open();
+      }
     }
   }, [isMobile, isCollapsed, collapse, open]);
 
   return (
     <main
       className={cn(
-        "mt-[75px] flex-1 px-8",
+        "mt-[75px] flex-1 p-8",
         isCollapsed ? "ml-16" : "ml-16 lg:ml-64",
       )}
     >

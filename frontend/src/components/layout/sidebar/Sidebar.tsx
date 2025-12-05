@@ -1,3 +1,17 @@
+"use client";
+
+import { useSidebar } from "@/hooks/useSidebar";
+import { cn } from "@/utils/tw-merge";
+
 export function Sidebar() {
-  return <div></div>;
+  const { isCollapsed } = useSidebar();
+
+  return (
+    <aside
+      className={cn(
+        "fixed left-0 z-50 mt-[75px] flex h-full flex-col border-r border-border bg-card transition-all duration-100 ease-in-out",
+        isCollapsed ? "w-16" : "w-64",
+      )}
+    ></aside>
+  );
 }
