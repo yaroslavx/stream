@@ -10,7 +10,9 @@ import {
 import { getNotificationIcon } from "@/utils/get-notification-icon";
 
 export function NotificationsList() {
-  const t = useTranslations("layout.headerMenu.profileMenu.notifications");
+  const t = useTranslations(
+    "layout.header.headerMenu.profileMenu.notifications",
+  );
 
   const { refetch } = useFindNotificationsUnreadCountQuery();
 

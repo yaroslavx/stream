@@ -19,7 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCurrent } from "@/hooks/useCurrent";
 
 export function ProfileMenu() {
-  const t = useTranslations("layout.headerMenu.profileMenu");
+  const t = useTranslations("layout.header.headerMenu.profileMenu");
 
   const router = useRouter();
 
