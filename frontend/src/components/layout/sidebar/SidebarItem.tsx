@@ -1,8 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuItem } from "@/components/layout/sidebar/menu.interface";
+import { Button } from "@/components/ui/common/Button";
+import { Hint } from "@/components/ui/elements/Hint";
 import { useSidebar } from "@/hooks/useSidebar";
+import { cn } from "@/utils/tw-merge";
 
 interface SidebarItemProps {
   route: MenuItem;
@@ -14,5 +18,28 @@ export function SidebarItem({ route }: SidebarItemProps) {
 
   const isActive = pathname === route.href;
 
-  return <div></div>;
+  return isCollapsed ? (
+    <Hint label={route.label} side="right" asChild>
+      <Button
+        className={cn("h-11 w-full justify-center", isActive && "bg-accent")}
+        variant="ghost"
+        asChild
+      >
+        <Link href={route.href}>
+          <route.icon className="mr-0 size-5" />
+        </Link>
+      </Button>
+    </Hint>
+  ) : (
+    <Button
+      className={cn("h-11 w-full justify-center", isActive && "bg-accent")}
+      variant="ghost"
+      asChild
+    >
+      <Link href={route.href} className="flex items-center gap-x-4">
+        <route.icon className="mr-0 size-5" />
+        {route.label}
+      </Link>
+    </Button>
+  );
 }
