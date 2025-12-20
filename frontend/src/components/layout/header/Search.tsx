@@ -1,7 +1,7 @@
 "use client";
 
 import { SearchIcon } from "lucide-react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/common/Button";

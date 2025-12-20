@@ -1,17 +1,18 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { DashboardNav } from "@/components/layout/sidebar/DashboardNav";
 import { SidebarHeader } from "@/components/layout/sidebar/SidebarHeader";
+import { UserNav } from "@/components/layout/sidebar/UserNav";
 import { useSidebar } from "@/hooks/useSidebar";
 import { cn } from "@/utils/tw-merge";
-import {usePathname} from "next/navigation";
-import {DashboardNav} from "@/components/layout/sidebar/DashboardNav";
 
 export function Sidebar() {
   const { isCollapsed } = useSidebar();
 
-  const pathname = usePathname()
+  const pathname = usePathname();
 
-  const isDashboardPage = pathname.includes('/dashboard')
+  const isDashboardPage = pathname.includes("/dashboard");
 
   return (
     <aside
@@ -21,7 +22,7 @@ export function Sidebar() {
       )}
     >
       <SidebarHeader />
-      {isDashboardPage ? <DashboardNav/>: "User navigation"}
+      {isDashboardPage ? <DashboardNav /> : <UserNav />}
     </aside>
   );
 }

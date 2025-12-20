@@ -30,7 +30,7 @@ export function SidebarHeader() {
         {t("navigation")}
       </h2>
       <Hint label={label} side="right" asChild>
-        <Button onClick={close} variant="ghost" size="icon">
+        <Button onClick={collapse} variant="ghost" size="icon">
           <ArrowLeftFromLine className="size-4" />
         </Button>
       </Hint>

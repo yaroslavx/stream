@@ -32,7 +32,7 @@ export function SidebarItem({ route }: SidebarItemProps) {
     </Hint>
   ) : (
     <Button
-      className={cn("h-11 w-full justify-center", isActive && "bg-accent")}
+      className={cn("h-11 w-full justify-start", isActive && "bg-accent")}
       variant="ghost"
       asChild
     >

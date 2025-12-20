@@ -1,8 +1,7 @@
 "use client";
 
 import { Loader } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";

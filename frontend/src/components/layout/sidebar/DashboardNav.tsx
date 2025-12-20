@@ -1,5 +1,14 @@
-import { KeyRound, MessageSquare, Settings } from "lucide-react";
+import {
+  Banknote,
+  DollarSign,
+  KeyRound,
+  Medal,
+  MessageSquare,
+  Settings,
+  Users,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
+import { SidebarItem } from "@/components/layout/sidebar/SidebarItem";
 import { Route } from "./route.interface";
 
 export function DashboardNav() {
@@ -21,7 +30,33 @@ export function DashboardNav() {
       href: "/dashboard/chat",
       icon: MessageSquare,
     },
+    {
+      label: t("followers"),
+      href: "/dashboard/followers",
+      icon: Users,
+    },
+    {
+      label: t("sponsors"),
+      href: "/dashboard/sponsors",
+      icon: Medal,
+    },
+    {
+      label: t("premium"),
+      href: "/dashboard/plans",
+      icon: DollarSign,
+    },
+    {
+      label: t("transactions"),
+      href: "/dashboard/transactions",
+      icon: Banknote,
+    },
   ];
 
-  return <div></div>;
+  return (
+    <div className="space-y-2 px-2 pt-4 lg:pt-0">
+      {routes.map((route) => (
+        <SidebarItem key={route.href} route={route} />
+      ))}
+    </div>
+  );
 }

@@ -1,4 +1,4 @@
-"useClient";
+"use client";
 
 import { PropsWithChildren, useEffect } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
