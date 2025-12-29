@@ -10,6 +10,7 @@ import { LiveBadge } from "@/components/ui/elements/LiveBadge";
 import { FindRecommendedChannelsQuery } from "@/graphql/generated/output";
 import { useSidebar } from "@/hooks/useSidebar";
 import { cn } from "@/utils/tw-merge";
+import {Skeleton} from "@/components/ui/common/Skeleton";
 
 interface ChannelItemProps {
   channel: FindRecommendedChannelsQuery["findRecommendedChannels"][0];
@@ -52,4 +53,8 @@ export function ChannelItem({ channel }: ChannelItemProps) {
       </Link>
     </Button>
   );
+}
+
+export function ChannelItemSkeleton() {
+  return <Skeleton className='mt-3 h-11 w-full rounded-full' />;
 }
