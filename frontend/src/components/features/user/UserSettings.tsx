@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { ChangeAvatarForm } from "@/components/features/user/profile/ChangeAvatarForm";
 import {
   Tabs,
   TabsContent,
@@ -27,7 +28,15 @@ export function UserSettings() {
           </TabsTrigger>
           <TabsTrigger value="sessions">{t("header.sessions")}</TabsTrigger>
         </TabsList>
-        <TabsContent value="profile">Профиль</TabsContent>
+        <TabsContent value="profile">
+          <div className="mt-5 space-y-6">
+            <Heading
+              title={t("profile.header.heading")}
+              description={t("profile.header.description")}
+            />
+            <ChangeAvatarForm />
+          </div>
+        </TabsContent>
         <TabsContent value="account">Аккаунт</TabsContent>
         <TabsContent value="appearance">Внешний вид</TabsContent>
         <TabsContent value="notifications">Уведомления</TabsContent>
