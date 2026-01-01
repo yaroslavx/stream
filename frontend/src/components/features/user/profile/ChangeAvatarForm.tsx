@@ -4,10 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/common/Button";
 import { Form, FormField } from "@/components/ui/common/Form";
 import { Skeleton } from "@/components/ui/common/Skeleton";
 import { ChannelAvatar } from "@/components/ui/elements/ChannelAvatar";
 import { FormWrapper } from "@/components/ui/elements/FormWrapper";
+import { useChangeProfileAvatarMutation } from "@/graphql/generated/output";
 import { useCurrent } from "@/hooks/useCurrent";
 import {
   TypeUploadFileSchema,
@@ -29,7 +32,24 @@ export function ChangeAvatarForm() {
     },
   });
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {};
+  const [update, { loading: updating }] = useChangeProfileAvatarMutation({
+    onCompleted: () => {
+      refetch();
+      toast.success(t("successUpdateMessage"));
+    },
+    onError: () => {
+      toast.error(t("errorUpdateMessage"));
+    },
+  });
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      form.setValue("file", file);
+      update({ variables: { avatar: file } });
+    }
+  };
 
   return isLoadingProfile ? (
     <ChangeAvatarFormSkeleton />
@@ -60,7 +80,15 @@ export function ChangeAvatarForm() {
                       ref={inputRef}
                       onChange={handleImageChange}
                     />
+                    <Button
+                      variant="secondary"
+                      disabled={updating}
+                      onClick={() => inputRef.current?.click()}
+                    >
+                      {t("updateButton")}
+                    </Button>
                   </div>
+                  <p className="text-sm text-muted-foreground">{t("info")}</p>
                 </div>
               </div>
             </div>
