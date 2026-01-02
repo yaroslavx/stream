@@ -16,7 +16,6 @@ import {
   TypeUploadFileSchema,
   uploadFileSchema,
 } from "@/schemas/upload-file.schema";
-import { getMediaSource } from "@/utils/get-media-source";
 
 export function ChangeAvatarForm() {
   const t = useTranslations("dashboard.setting.profile.avatar");
@@ -28,7 +27,7 @@ export function ChangeAvatarForm() {
   const form = useForm<TypeUploadFileSchema>({
     resolver: zodResolver(uploadFileSchema),
     values: {
-      file: getMediaSource(user?.avatar),
+      file: user?.avatar!,
     },
   });
 
