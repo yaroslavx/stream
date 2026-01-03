@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -10,7 +11,10 @@ import { Form, FormField } from "@/components/ui/common/Form";
 import { Skeleton } from "@/components/ui/common/Skeleton";
 import { ChannelAvatar } from "@/components/ui/elements/ChannelAvatar";
 import { FormWrapper } from "@/components/ui/elements/FormWrapper";
-import { useChangeProfileAvatarMutation } from "@/graphql/generated/output";
+import {
+  useChangeProfileAvatarMutation,
+  useRemoveProfileAvatarMutation,
+} from "@/graphql/generated/output";
 import { useCurrent } from "@/hooks/useCurrent";
 import {
   TypeUploadFileSchema,
@@ -38,6 +42,16 @@ export function ChangeAvatarForm() {
     },
     onError: () => {
       toast.error(t("errorUpdateMessage"));
+    },
+  });
+
+  const [remove, { loading: removing }] = useRemoveProfileAvatarMutation({
+    onCompleted: () => {
+      refetch();
+      toast.success(t("successRemoveMessage"));
+    },
+    onError: () => {
+      toast.error(t("errorRemoveMessage"));
     },
   });
 
@@ -81,11 +95,25 @@ export function ChangeAvatarForm() {
                     />
                     <Button
                       variant="secondary"
-                      disabled={updating}
-                      onClick={() => inputRef.current?.click()}
+                      disabled={removing || updating}
+                      onClick={() => {
+                        inputRef.current?.click();
+                      }}
                     >
                       {t("updateButton")}
                     </Button>
+                    {!!user?.avatar && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        disabled={removing || updating}
+                        onClick={() => {
+                          remove();
+                        }}
+                      >
+                        <Trash className="size-4" />
+                      </Button>
+                    )}
                   </div>
                   <p className="text-sm text-muted-foreground">{t("info")}</p>
                 </div>
