@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { ChangeAvatarForm } from "@/components/features/user/profile/ChangeAvatarForm";
+import { ChangeInfoForm } from "@/components/features/user/profile/ChangeInfoForm";
 import {
   Tabs,
   TabsContent,
@@ -35,6 +36,7 @@ export function UserSettings() {
               description={t("profile.header.description")}
             />
             <ChangeAvatarForm />
+            <ChangeInfoForm />
           </div>
         </TabsContent>
         <TabsContent value="account">Аккаунт</TabsContent>
