@@ -13,6 +13,7 @@ import {
   FormLabel,
 } from "@/components/ui/common/Form";
 import { Input } from "@/components/ui/common/Input";
+import { Separator } from "@/components/ui/common/Separator";
 import { Skeleton } from "@/components/ui/common/Skeleton";
 import { FormWrapper } from "@/components/ui/elements/FormWrapper";
 import { useCurrent } from "@/hooks/useCurrent";
@@ -49,12 +50,26 @@ export function ChangeInfoForm() {
             control={form.control}
             name="username"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="px-5">
                 <FormLabel>{t("usernameLabel")}</FormLabel>
                 <FormControl>
                   <Input placeholder={t("usernamePlaceholder")} {...field} />
                 </FormControl>
                 <FormDescription>{t("usernameDescription")}</FormDescription>
+              </FormItem>
+            )}
+          />
+          <Separator />
+          <FormField
+            control={form.control}
+            name="displayName"
+            render={({ field }) => (
+              <FormItem className="px-5 pb-3">
+                <FormLabel>{t("displayNameLabel")}</FormLabel>
+                <FormControl>
+                  <Input placeholder={t("displayNamePlaceholder")} {...field} />
+                </FormControl>
+                <FormDescription>{t("displayNameDescription")}</FormDescription>
               </FormItem>
             )}
           />
