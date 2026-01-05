@@ -3,7 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { ChangeAvatarFormSkeleton } from "@/components/features/user/profile/ChangeAvatarForm";
+import { Button } from "@/components/ui/common/Button";
 import {
   Form,
   FormControl,
@@ -15,7 +17,9 @@ import {
 import { Input } from "@/components/ui/common/Input";
 import { Separator } from "@/components/ui/common/Separator";
 import { Skeleton } from "@/components/ui/common/Skeleton";
+import { Textarea } from "@/components/ui/common/Textarea";
 import { FormWrapper } from "@/components/ui/elements/FormWrapper";
+import { useChangeProfileInfoMutation } from "@/graphql/generated/output";
 import { useCurrent } from "@/hooks/useCurrent";
 import {
   changeProfileInfoSchema,
@@ -36,9 +40,21 @@ export function ChangeInfoForm() {
     },
   });
 
+  const [update, { loading: updating }] = useChangeProfileInfoMutation({
+    onCompleted: () => {
+      refetch();
+      toast.success(t("successMessage"));
+    },
+    onError: () => {
+      toast.error(t("errorMessage"));
+    },
+  });
+
   const { isValid, isDirty } = form.formState;
 
-  function onSubmit() {}
+  function onSubmit(data: TypeChangeProfileInfoSchema) {
+    update({ variables: { data } });
+  }
 
   return isLoadingProfile ? (
     <ChangeAvatarFormSkeleton />
@@ -53,13 +69,17 @@ export function ChangeInfoForm() {
               <FormItem className="px-5">
                 <FormLabel>{t("usernameLabel")}</FormLabel>
                 <FormControl>
-                  <Input placeholder={t("usernamePlaceholder")} {...field} />
+                  <Input
+                    placeholder={t("usernamePlaceholder")}
+                    disabled={updating}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>{t("usernameDescription")}</FormDescription>
               </FormItem>
             )}
           />
-          <Separator />
+          <Separator className="px-5" />
           <FormField
             control={form.control}
             name="displayName"
@@ -67,12 +87,39 @@ export function ChangeInfoForm() {
               <FormItem className="px-5 pb-3">
                 <FormLabel>{t("displayNameLabel")}</FormLabel>
                 <FormControl>
-                  <Input placeholder={t("displayNamePlaceholder")} {...field} />
+                  <Input
+                    placeholder={t("displayNamePlaceholder")}
+                    disabled={updating}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>{t("displayNameDescription")}</FormDescription>
               </FormItem>
             )}
           />
+          <Separator className="px-5" />
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem className="px-5 pb-3">
+                <FormLabel>{t("bioLabel")}</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={t("bioPlaceholder")}
+                    disabled={updating}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>{t("bioDescription")}</FormDescription>
+              </FormItem>
+            )}
+          />
+          <div className="flex justify-end p-5">
+            <Button disabled={!isValid || !isDirty || updating}>
+              {t("submitButton")}
+            </Button>
+          </div>
         </form>
       </Form>
     </FormWrapper>
