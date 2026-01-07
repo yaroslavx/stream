@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { ChangeAvatarForm } from "@/components/features/user/profile/ChangeAvatarForm";
 import { ChangeInfoForm } from "@/components/features/user/profile/ChangeInfoForm";
+import { SocialLinksForm } from "@/components/features/user/profile/social-links-form/SocialLinksForm";
 import {
   Tabs,
   TabsContent,
@@ -37,6 +38,7 @@ export function UserSettings() {
             />
             <ChangeAvatarForm />
             <ChangeInfoForm />
+            <SocialLinksForm />
           </div>
         </TabsContent>
         <TabsContent value="account">Аккаунт</TabsContent>

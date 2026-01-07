@@ -652,6 +652,13 @@ export type ClearSessionCookieMutationVariables = Exact<{ [key: string]: never; 
 
 export type ClearSessionCookieMutation = { __typename?: 'Mutation', clearSessionCookie: boolean };
 
+export type CreateSocialLinkMutationVariables = Exact<{
+  data: SocialLinkInput;
+}>;
+
+
+export type CreateSocialLinkMutation = { __typename?: 'Mutation', createSocialLink: boolean };
+
 export type RemoveProfileAvatarMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -676,6 +683,11 @@ export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', username: string, displayName: string, email: string, avatar?: string | null, bio?: string | null } };
+
+export type FindSocialLinksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindSocialLinksQuery = { __typename?: 'Query', findSocialLinks: Array<{ __typename?: 'SocialLinkModel', title: string, url: string, position: number }> };
 
 
 export const CreateUserDocument = gql`
@@ -965,6 +977,37 @@ export function useClearSessionCookieMutation(baseOptions?: Apollo.MutationHookO
 export type ClearSessionCookieMutationHookResult = ReturnType<typeof useClearSessionCookieMutation>;
 export type ClearSessionCookieMutationResult = Apollo.MutationResult<ClearSessionCookieMutation>;
 export type ClearSessionCookieMutationOptions = Apollo.BaseMutationOptions<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>;
+export const CreateSocialLinkDocument = gql`
+    mutation CreateSocialLink($data: SocialLinkInput!) {
+  createSocialLink(data: $data)
+}
+    `;
+export type CreateSocialLinkMutationFn = Apollo.MutationFunction<CreateSocialLinkMutation, CreateSocialLinkMutationVariables>;
+
+/**
+ * __useCreateSocialLinkMutation__
+ *
+ * To run a mutation, you first call `useCreateSocialLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSocialLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSocialLinkMutation, { data, loading, error }] = useCreateSocialLinkMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateSocialLinkMutation(baseOptions?: Apollo.MutationHookOptions<CreateSocialLinkMutation, CreateSocialLinkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSocialLinkMutation, CreateSocialLinkMutationVariables>(CreateSocialLinkDocument, options);
+      }
+export type CreateSocialLinkMutationHookResult = ReturnType<typeof useCreateSocialLinkMutation>;
+export type CreateSocialLinkMutationResult = Apollo.MutationResult<CreateSocialLinkMutation>;
+export type CreateSocialLinkMutationOptions = Apollo.BaseMutationOptions<CreateSocialLinkMutation, CreateSocialLinkMutationVariables>;
 export const RemoveProfileAvatarDocument = gql`
     mutation RemoveProfileAvatar {
   removeProfileAvatar
@@ -1160,3 +1203,44 @@ export type FindProfileQueryHookResult = ReturnType<typeof useFindProfileQuery>;
 export type FindProfileLazyQueryHookResult = ReturnType<typeof useFindProfileLazyQuery>;
 export type FindProfileSuspenseQueryHookResult = ReturnType<typeof useFindProfileSuspenseQuery>;
 export type FindProfileQueryResult = Apollo.QueryResult<FindProfileQuery, FindProfileQueryVariables>;
+export const FindSocialLinksDocument = gql`
+    query FindSocialLinks {
+  findSocialLinks {
+    title
+    url
+    position
+  }
+}
+    `;
+
+/**
+ * __useFindSocialLinksQuery__
+ *
+ * To run a query within a React component, call `useFindSocialLinksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindSocialLinksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindSocialLinksQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindSocialLinksQuery(baseOptions?: Apollo.QueryHookOptions<FindSocialLinksQuery, FindSocialLinksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindSocialLinksQuery, FindSocialLinksQueryVariables>(FindSocialLinksDocument, options);
+      }
+export function useFindSocialLinksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindSocialLinksQuery, FindSocialLinksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindSocialLinksQuery, FindSocialLinksQueryVariables>(FindSocialLinksDocument, options);
+        }
+export function useFindSocialLinksSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindSocialLinksQuery, FindSocialLinksQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindSocialLinksQuery, FindSocialLinksQueryVariables>(FindSocialLinksDocument, options);
+        }
+export type FindSocialLinksQueryHookResult = ReturnType<typeof useFindSocialLinksQuery>;
+export type FindSocialLinksLazyQueryHookResult = ReturnType<typeof useFindSocialLinksLazyQuery>;
+export type FindSocialLinksSuspenseQueryHookResult = ReturnType<typeof useFindSocialLinksSuspenseQuery>;
+export type FindSocialLinksQueryResult = Apollo.QueryResult<FindSocialLinksQuery, FindSocialLinksQueryVariables>;
