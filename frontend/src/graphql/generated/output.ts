@@ -687,7 +687,7 @@ export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename
 export type FindSocialLinksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindSocialLinksQuery = { __typename?: 'Query', findSocialLinks: Array<{ __typename?: 'SocialLinkModel', title: string, url: string, position: number }> };
+export type FindSocialLinksQuery = { __typename?: 'Query', findSocialLinks: Array<{ __typename?: 'SocialLinkModel', id: string, title: string, url: string, position: number }> };
 
 
 export const CreateUserDocument = gql`
@@ -1206,6 +1206,7 @@ export type FindProfileQueryResult = Apollo.QueryResult<FindProfileQuery, FindPr
 export const FindSocialLinksDocument = gql`
     query FindSocialLinks {
   findSocialLinks {
+    id
     title
     url
     position

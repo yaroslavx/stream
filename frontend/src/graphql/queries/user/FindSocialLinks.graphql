@@ -1,5 +1,6 @@
 query FindSocialLinks {
   findSocialLinks {
+    id
     title
     url
     position

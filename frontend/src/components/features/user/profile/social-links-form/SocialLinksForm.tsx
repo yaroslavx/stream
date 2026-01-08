@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { SocialLinksList } from "@/components/features/user/profile/social-links-form/SocialLinksList";
 import { Button } from "@/components/ui/common/Button";
 import {
   Form,
@@ -103,6 +104,7 @@ export function SocialLinksForm() {
           </div>
         </form>
       </Form>
+      <SocialLinksList />
     </FormWrapper>
   );
 }
