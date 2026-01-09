@@ -27,7 +27,7 @@ import {
 } from "@/schemas/user/change-info.schema";
 
 export function ChangeInfoForm() {
-  const t = useTranslations("dashboard.setting.profile.info");
+  const t = useTranslations("dashboard.settings.profile.info");
 
   const { user, isLoadingProfile, refetch } = useCurrent();
 

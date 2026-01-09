@@ -23,7 +23,7 @@ import {
 } from "@/schemas/upload-file.schema";
 
 export function ChangeAvatarForm() {
-  const t = useTranslations("dashboard.setting.profile.avatar");
+  const t = useTranslations("dashboard.settings.profile.avatar");
 
   const { user, isLoadingProfile, refetch } = useCurrent();
 

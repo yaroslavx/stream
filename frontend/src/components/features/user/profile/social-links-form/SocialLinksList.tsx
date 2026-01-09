@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/common/Separator";
 import { useFindSocialLinksQuery } from "@/graphql/generated/output";
 
 export function SocialLinksList() {
-  const t = useTranslations("dashboard.setting.profile.socialLinks");
+  const t = useTranslations("dashboard.settings.profile.socialLinks");
 
   const { data, refetch } = useFindSocialLinksQuery();
 
@@ -43,7 +43,7 @@ export function SocialLinksList() {
   return socialLinks.length ? (
     <>
       <Separator />
-      <div className="px-5">
+      <div className="px-5 mt-5">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="socialLinks">
             {(provided) => (

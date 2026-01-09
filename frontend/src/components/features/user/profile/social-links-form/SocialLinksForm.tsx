@@ -29,7 +29,9 @@ import {
 } from "@/schemas/user/social-links.schema";
 
 export function SocialLinksForm() {
-  const t = useTranslations("dashboard.setting.profile.socialLinks.createForm");
+  const t = useTranslations(
+    "dashboard.settings.profile.socialLinks.createForm",
+  );
 
   const { refetch, loading } = useFindSocialLinksQuery();
 
