@@ -1,6 +1,6 @@
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/common/Form";
 import { Input } from "@/components/ui/common/Input";
 import { Separator } from "@/components/ui/common/Separator";
+import { ConfirmModal } from "@/components/ui/elements/ConfirmModal";
 import {
   FindSocialLinksQuery,
   useFindSocialLinksQuery,
@@ -124,6 +125,20 @@ export function SocialLinkItem({ provided, socialLink }: SocialLinkItemProps) {
             <p className={"text-muted-foreground"}>{socialLink.url}</p>
           </>
         )}
+      </div>
+      <div className={"ml-auto flex gap-x-2 items-center pr-4"}>
+        {editingId !== socialLink.id && (
+          <Button
+            onClick={() => toggleEditing(socialLink.id)}
+            variant="ghost"
+            size={"icon"}
+          >
+            <Pencil className={"size-4 text-muted-foreground"} />
+          </Button>
+        )}
+        <Button variant="ghost" size={"icon"}>
+          <Trash2 className={"size-4 text-muted-foreground"} />
+        </Button>
       </div>
     </div>
   );
