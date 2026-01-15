@@ -6,9 +6,13 @@ import {
 } from "@hello-pangea/dnd";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { SocialLinkItem } from "@/components/features/user/profile/social-links-form/SocialLinkItem";
 import { Separator } from "@/components/ui/common/Separator";
-import { useFindSocialLinksQuery } from "@/graphql/generated/output";
+import {
+  useFindSocialLinksQuery,
+  useReorderSocialLinksMutation,
+} from "@/graphql/generated/output";
 
 export function SocialLinksList() {
   const t = useTranslations("dashboard.settings.profile.socialLinks");
@@ -22,6 +26,17 @@ export function SocialLinksList() {
   useEffect(() => {
     setSocialLinks(items);
   }, [items]);
+
+  const [reorder, { loading: isLoadingReorder }] =
+    useReorderSocialLinksMutation({
+      onCompleted() {
+        refetch();
+        toast.success(t("successReorderMessage"));
+      },
+      onError() {
+        toast.error(t("errorReorderMessage"));
+      },
+    });
 
   function onDragEnd(result: DropResult) {
     if (!result.destination) return;
@@ -38,6 +53,8 @@ export function SocialLinksList() {
     }));
 
     setSocialLinks(items);
+
+    reorder({ variables: { list: bulkUpdateData } });
   }
 
   return socialLinks.length ? (
@@ -53,7 +70,7 @@ export function SocialLinksList() {
                     draggableId={socialLink.id}
                     key={socialLink.id}
                     index={index}
-                    // isDragDisabled={}
+                    isDragDisabled={isLoadingReorder}
                   >
                     {(provided) => (
                       <SocialLinkItem
@@ -64,6 +81,7 @@ export function SocialLinksList() {
                     )}
                   </Draggable>
                 ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
