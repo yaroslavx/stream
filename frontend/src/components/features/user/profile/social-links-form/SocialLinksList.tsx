@@ -43,7 +43,7 @@ export function SocialLinksList() {
 
     const items = Array.from(socialLinks);
 
-    const [reorderItem] = items.slice(result.source.index, 1);
+    const [reorderItem] = items.splice(result.source.index, 1);
 
     items.splice(result.destination.index, 0, reorderItem);
 

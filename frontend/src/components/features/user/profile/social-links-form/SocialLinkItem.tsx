@@ -4,6 +4,7 @@ import { GripVertical, Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/common/Button";
 import {
   Form,
@@ -19,6 +20,8 @@ import { ConfirmModal } from "@/components/ui/elements/ConfirmModal";
 import {
   FindSocialLinksQuery,
   useFindSocialLinksQuery,
+  useRemoveSocialLinkMutation,
+  useUpdateSocialLinkMutation,
 } from "@/graphql/generated/output";
 import {
   socialLinksSchema,
@@ -51,7 +54,35 @@ export function SocialLinkItem({ provided, socialLink }: SocialLinkItemProps) {
     setEditingId(id);
   }
 
-  function onSubmit(data: TypeSocialLinksSchema) {}
+  const [update, { loading: updating }] = useUpdateSocialLinkMutation({
+    onCompleted() {
+      refetch();
+      toggleEditing(null);
+      toast.success(t("successUpdateMessage"));
+    },
+    onError() {
+      toast.success(t("errorUpdateMessage"));
+    },
+  });
+
+  const [remove, { loading: removing }] = useRemoveSocialLinkMutation({
+    onCompleted() {
+      refetch();
+      toast.success(t("successRemoveMessage"));
+    },
+    onError() {
+      toast.success(t("errorRemoveMessage"));
+    },
+  });
+
+  function onSubmit(data: TypeSocialLinksSchema) {
+    update({
+      variables: {
+        id: socialLink.id,
+        data,
+      },
+    });
+  }
 
   return (
     <div
@@ -84,6 +115,7 @@ export function SocialLinkItem({ provided, socialLink }: SocialLinkItemProps) {
                         <Input
                           placeholder="YouTube"
                           className="h-8"
+                          disabled={updating || removing}
                           {...field}
                         />
                       </FormControl>
@@ -99,6 +131,7 @@ export function SocialLinkItem({ provided, socialLink }: SocialLinkItemProps) {
                         <Input
                           placeholder="https://youtube.com"
                           className="h-8"
+                          disabled={updating || removing}
                           {...field}
                         />
                       </FormControl>
@@ -113,7 +146,9 @@ export function SocialLinkItem({ provided, socialLink }: SocialLinkItemProps) {
                 >
                   {t("cancelButton")}
                 </Button>
-                <Button>{t("submitButton")}</Button>
+                <Button disabled={updating || !isDirty || removing || !isValid}>
+                  {t("submitButton")}
+                </Button>
               </div>
             </form>
           </Form>
@@ -136,7 +171,12 @@ export function SocialLinkItem({ provided, socialLink }: SocialLinkItemProps) {
             <Pencil className={"size-4 text-muted-foreground"} />
           </Button>
         )}
-        <Button variant="ghost" size={"icon"}>
+        <Button
+          onClick={() => remove({ variables: { id: socialLink.id } })}
+          variant="ghost"
+          size={"icon"}
+          disabled={removing}
+        >
           <Trash2 className={"size-4 text-muted-foreground"} />
         </Button>
       </div>
