@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { ChangeEmailForm } from "@/components/features/user/account/ChangeEmailForm";
 import { ChangeAvatarForm } from "@/components/features/user/profile/ChangeAvatarForm";
 import { ChangeInfoForm } from "@/components/features/user/profile/ChangeInfoForm";
 import { SocialLinksForm } from "@/components/features/user/profile/social-links-form/SocialLinksForm";
@@ -41,7 +42,15 @@ export function UserSettings() {
             <SocialLinksForm />
           </div>
         </TabsContent>
-        <TabsContent value="account">Аккаунт</TabsContent>
+        <TabsContent value="account">
+          <div className={"mt-5 space-y-6"}>
+            <Heading
+              title={t("account.header.heading")}
+              description={t("account.header.description")}
+            />
+            <ChangeEmailForm />
+          </div>
+        </TabsContent>
         <TabsContent value="appearance">Внешний вид</TabsContent>
         <TabsContent value="notifications">Уведомления</TabsContent>
         <TabsContent value="sessions">Сессии</TabsContent>

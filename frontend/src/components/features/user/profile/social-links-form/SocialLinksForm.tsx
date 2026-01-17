@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/common/Input";
 import { Separator } from "@/components/ui/common/Separator";
 import { Skeleton } from "@/components/ui/common/Skeleton";
-import { Textarea } from "@/components/ui/common/Textarea";
 import { FormWrapper } from "@/components/ui/elements/FormWrapper";
 import {
   useCreateSocialLinkMutation,
@@ -61,7 +60,7 @@ export function SocialLinksForm() {
   }
 
   return loading ? (
-    SocialLinksFormSkeleton
+    <SocialLinksFormSkeleton />
   ) : (
     <FormWrapper heading={t("heading")}>
       <Form {...form}>

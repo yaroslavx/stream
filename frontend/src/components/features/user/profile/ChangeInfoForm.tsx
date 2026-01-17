@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ChangeAvatarFormSkeleton } from "@/components/features/user/profile/ChangeAvatarForm";
 import { Button } from "@/components/ui/common/Button";
 import {
   Form,
@@ -57,7 +56,7 @@ export function ChangeInfoForm() {
   }
 
   return isLoadingProfile ? (
-    <ChangeAvatarFormSkeleton />
+    <ChangeInfoFormSkeleton />
   ) : (
     <FormWrapper heading={t("heading")}>
       <Form {...form}>
