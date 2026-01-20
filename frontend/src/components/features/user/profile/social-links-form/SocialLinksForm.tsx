@@ -82,7 +82,6 @@ export function SocialLinksForm() {
               </FormItem>
             )}
           />
-          <Separator className="px-5" />
           <FormField
             control={form.control}
             name="url"

@@ -78,7 +78,6 @@ export function ChangeInfoForm() {
               </FormItem>
             )}
           />
-          <Separator className="px-5" />
           <FormField
             control={form.control}
             name="displayName"
@@ -96,7 +95,6 @@ export function ChangeInfoForm() {
               </FormItem>
             )}
           />
-          <Separator className="px-5" />
           <FormField
             control={form.control}
             name="bio"
