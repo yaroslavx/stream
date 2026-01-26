@@ -730,7 +730,7 @@ export type FindNotificationsUnreadCountQuery = { __typename?: 'Query', findNoti
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', username: string, displayName: string, email: string, avatar?: string | null, bio?: string | null } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', username: string, displayName: string, email: string, avatar?: string | null, bio?: string | null, isTotpEnabled: boolean } };
 
 export type FindSocialLinksQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1438,6 +1438,7 @@ export const FindProfileDocument = gql`
     email
     avatar
     bio
+    isTotpEnabled
   }
 }
     `;

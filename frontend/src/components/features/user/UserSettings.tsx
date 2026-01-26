@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { ChangeEmailForm } from "@/components/features/user/account/ChangeEmailForm";
 import { ChangePasswordForm } from "@/components/features/user/account/ChangePasswordForm";
+import { WrapperTOTP } from "@/components/features/user/account/totp/WrapperTOTP";
 import { ChangeAvatarForm } from "@/components/features/user/profile/ChangeAvatarForm";
 import { ChangeInfoForm } from "@/components/features/user/profile/ChangeInfoForm";
 import { SocialLinksForm } from "@/components/features/user/profile/social-links-form/SocialLinksForm";
@@ -51,6 +52,11 @@ export function UserSettings() {
             />
             <ChangeEmailForm />
             <ChangePasswordForm />
+            <Heading
+              title={t("account.header.securityHeading")}
+              description={t("account.header.securityDescription")}
+            />
+            <WrapperTOTP />
           </div>
         </TabsContent>
         <TabsContent value="appearance">Внешний вид</TabsContent>
