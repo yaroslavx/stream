@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/common/Button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/common/Dialog";
-import { Form } from "@/components/ui/common/Form";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/common/Dialog";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/common/Form";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/common/InputOTP";
 import { useGenerateTotpSecretQuery } from "@/graphql/generated/output";
 import { useCurrent } from "@/hooks/useCurrent";
 import { enableTotpSchema, TypeEnableTotpSchema } from "@/schemas/user/enable-totp.schema";
@@ -29,7 +30,7 @@ export function EnableTotp() {
   function onSubmit(data: TypeEnableTotpSchema) {
   }
 
-  return <Dialog>
+  return (<Dialog>
     <DialogTrigger asChild>
       <Button>{t("trigger")}</Button>
     </DialogTrigger>
@@ -46,9 +47,34 @@ export function EnableTotp() {
           <div className="flex flex-col gap-2">
             <span className="text-sm text-muted-foreground text-center">{twoFactorAuth?.secret ? t("secretCodeLabel") + twoFactorAuth?.secret : ''}</span>
           </div>
-
+          <FormField
+            control={form.control}
+            name="pin"
+            render={({ field }) => (
+              <FormItem className="flex flex-col justify-center max-sm:items-center">
+                <FormLabel>{t("pinLabel")}</FormLabel>
+                <FormControl>
+                  <InputOTP maxLength={6} {...field} >
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </FormControl>
+                <FormDescription>{t("pinDescription")}</FormDescription>
+              </FormItem>
+            )}
+          />
+          <DialogFooter>
+            <Button type="submit" disabled={!isValid || loading}>{t("submit")}</Button>
+          </DialogFooter>
         </form>
       </Form>
     </DialogContent>
-  </Dialog>;
+  </Dialog>
+  );
 }
