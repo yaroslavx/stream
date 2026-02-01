@@ -2,15 +2,19 @@ import { Button } from "@/components/ui/common/Button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/common/Dialog";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/common/Form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/common/InputOTP";
-import { useGenerateTotpSecretQuery } from "@/graphql/generated/output";
+import { useEnableTotpMutation, useGenerateTotpSecretQuery } from "@/graphql/generated/output";
 import { useCurrent } from "@/hooks/useCurrent";
 import { enableTotpSchema, TypeEnableTotpSchema } from "@/schemas/user/enable-totp.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export function EnableTotp() {
   const t = useTranslations("dashboard.settings.account.twoFactor.enable");
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const { refetch } = useCurrent();
 
@@ -25,12 +29,31 @@ export function EnableTotp() {
     },
   });
 
+  const [enableTotp, { loading: isEnableTotpLoading }] = useEnableTotpMutation({
+    onCompleted: () => {
+      refetch();
+      setIsOpen(false);
+      toast.success(t("successMessage"));
+    },
+    onError: () => {
+      toast.error(t("errorMessage"));
+    },
+  });
+
   const { isValid } = form.formState;
 
   function onSubmit(data: TypeEnableTotpSchema) {
+    enableTotp({
+      variables: {
+        data: {
+          pin: data.pin,
+          secret: twoFactorAuth?.secret ?? '',
+        },
+      },
+    });
   }
 
-  return (<Dialog>
+  return (<Dialog open={isOpen} onOpenChange={setIsOpen}>
     <DialogTrigger asChild>
       <Button>{t("trigger")}</Button>
     </DialogTrigger>
@@ -70,7 +93,7 @@ export function EnableTotp() {
             )}
           />
           <DialogFooter>
-            <Button type="submit" disabled={!isValid || loading}>{t("submit")}</Button>
+            <Button type="submit" disabled={!isValid || loading || isEnableTotpLoading}>{t("submit")}</Button>
           </DialogFooter>
         </form>
       </Form>
