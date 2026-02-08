@@ -12,6 +12,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/common/Tabs";
 import { Heading } from "@/components/ui/elements/Heading";
+import { DeactivateCard } from "./account/DeactivateCard";
 
 export function UserSettings() {
   const t = useTranslations("dashboard.settings");
@@ -57,6 +58,11 @@ export function UserSettings() {
               description={t("account.header.securityDescription")}
             />
             <WrapperTOTP />
+            <Heading
+              title={t("account.header.deactivationHeading")}
+              description={t("account.header.deactivationDescription")}
+            />
+            <DeactivateCard />
           </div>
         </TabsContent>
         <TabsContent value="appearance">Внешний вид</TabsContent>
