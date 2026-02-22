@@ -600,6 +600,13 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: boolean };
 
+export type DeactivateAccountMutationVariables = Exact<{
+  data: DeactivateAccountInput;
+}>;
+
+
+export type DeactivateAccountMutation = { __typename?: 'Mutation', deactivateAccount: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', isDeactivated: boolean } | null } };
+
 export type LoginUserMutationVariables = Exact<{
   data: LoginInput;
 }>;
@@ -774,6 +781,42 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const DeactivateAccountDocument = gql`
+    mutation DeactivateAccount($data: DeactivateAccountInput!) {
+  deactivateAccount(data: $data) {
+    user {
+      isDeactivated
+    }
+    message
+  }
+}
+    `;
+export type DeactivateAccountMutationFn = Apollo.MutationFunction<DeactivateAccountMutation, DeactivateAccountMutationVariables>;
+
+/**
+ * __useDeactivateAccountMutation__
+ *
+ * To run a mutation, you first call `useDeactivateAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeactivateAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deactivateAccountMutation, { data, loading, error }] = useDeactivateAccountMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useDeactivateAccountMutation(baseOptions?: Apollo.MutationHookOptions<DeactivateAccountMutation, DeactivateAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeactivateAccountMutation, DeactivateAccountMutationVariables>(DeactivateAccountDocument, options);
+      }
+export type DeactivateAccountMutationHookResult = ReturnType<typeof useDeactivateAccountMutation>;
+export type DeactivateAccountMutationResult = Apollo.MutationResult<DeactivateAccountMutation>;
+export type DeactivateAccountMutationOptions = Apollo.BaseMutationOptions<DeactivateAccountMutation, DeactivateAccountMutationVariables>;
 export const LoginUserDocument = gql`
     mutation LoginUser($data: LoginInput!) {
   loginUser(data: $data) {
