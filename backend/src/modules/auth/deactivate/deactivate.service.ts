@@ -14,15 +14,17 @@ import { getSessionMetadata } from "@/src/shared/utils/session-metadata.util";
 import { DeactivateAccountInput } from "./inputs/deactivate-account.input";
 import { verify } from "argon2";
 import { TelegramService } from "@/src/modules/libs/telegram/telegram.service";
+import { RedisService } from "@/src/core/redis/redis.service";
 
 @Injectable()
 export class DeactivateService {
   public constructor(
     private readonly prismaService: PrismaService,
+    private readonly redisService: RedisService,
     private readonly mailService: MailService,
     private readonly configService: ConfigService,
     private readonly telegramService: TelegramService,
-  ) {}
+  ) { }
 
   public async deactivate(
     req: Request,
@@ -71,7 +73,7 @@ export class DeactivateService {
       throw new BadRequestException("Токен истек");
     }
 
-    await this.prismaService.user.update({
+    const user = await this.prismaService.user.update({
       where: {
         id: existingToken.userId,
       },
@@ -88,10 +90,12 @@ export class DeactivateService {
       },
     });
 
+    await this.clearSessions(user.id);
+
     return destroySession(req, this.configService);
   }
 
-  public async sendDeactivateToken(
+  private async sendDeactivateToken(
     req: Request,
     user: User,
     userAgent: string,
@@ -120,12 +124,24 @@ export class DeactivateService {
         deactivateToken.token,
         metadata,
       );
-
-      await this.telegramService.sendAccountDeletion(
-        deactivateToken.user.telegramId,
-      );
     }
 
     return true;
+  }
+
+  private async clearSessions(userId: string) {
+    const keys = await this.redisService.keys('*')
+
+    for (const key of keys) {
+      const sessionData = await this.redisService.get(key)
+
+      if (sessionData) {
+        const session = JSON.parse(sessionData)
+
+        if (session.userId === userId) {
+          await this.redisService.del(key)
+        }
+      }
+    }
   }
 }

@@ -77,8 +77,8 @@ export class SessionService {
             }
         })
 
-        if (!user) {
-            throw new UnauthorizedException('Неверный логин или пароль')
+        if (!user || user.isDeactivated) {
+            throw new NotFoundException('Пользователь не найден')
         }
 
         const isValidPassword = await verify(user.password, password)

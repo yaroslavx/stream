@@ -17,7 +17,7 @@ export class VerificationService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly mailService: MailService,
-  ) {}
+  ) { }
 
   public async verify(
     req: Request,
